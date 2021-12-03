@@ -1,6 +1,6 @@
 const express = require('express')
 const mysql = require('mysql')
-var cors = require('cors')
+const cors = require('cors')
 require('dotenv').config()
 
 const app = express()
@@ -8,7 +8,7 @@ app.use(cors())
 
 const port = process.env.PORT || 8080
 
-let config = {
+const config = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -16,7 +16,7 @@ let config = {
   connectionLimit: 10
 }
 
-var pool = mysql.createPool(config)
+const pool = mysql.createPool(config)
 app.get('/', (req, res) => {
   pool.query('SELECT * from locations', (error, results) => {
     if (error) {

@@ -2,7 +2,7 @@
 
 [![Current Version][current-version]][current-version]
 
-> Track your progress in the gym without pen and paper
+> Tracks your progress in the gym without pen and paper
 
 ![](header.png)
 
@@ -19,18 +19,31 @@ This application was developed as a part of studies in TAMK to demonstrate skill
 * **0.0.1**
     * Work in progress
 
+## Todo
+
+- [x] Initialize project
+- [ ] Design and create database
+- [ ] Create basic CRUD methods for database (user)
+- [ ] Create basic CRUD methods for database (admin)
+- [ ] Create simple frontend and routing to access database
+- [ ] Create advanced routing (filtering and sorting)
+- [ ] Create robust error handling
+- [ ] Design and create a nice UI for the app
+- [ ] /(Optional) Add authentication
+- [ ] /(Optional) Add license before publishing
+
 ## Installation
 
 Clone the repo
 
 ```
-git clone https://github.com/roouit/training-log
+$ git clone https://github.com/roouit/training-log
 ```
 
 Install dependencies
 
 ```
-npm install
+$ npm install
 ```
 
 ## Technology

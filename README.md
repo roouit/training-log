@@ -29,8 +29,8 @@ This application was developed as a part of studies in TAMK to demonstrate skill
 - [ ] Create advanced routing (filtering and sorting)
 - [ ] Create robust error handling
 - [ ] Design and create a nice UI for the app
-- [ ] /(Optional) Add authentication
-- [ ] /(Optional) Add license before publishing
+- [ ] (Optional) Add authentication
+- [ ] (Optional) Add license before publishing
 
 ## Installation
 

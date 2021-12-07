@@ -2,15 +2,17 @@
 
 [![Current Version][current-version]][current-version]
 
-> Tracks your strength training data
+> Track your progress in the gym without pen and paper
 
 ![](header.png)
 
 ## About
 
-A training log application for managing data related to strength training.
+A **training log** application for managing data related to **strength training**.
 
-The app will support basic CRUD operations for individual training sessions, as well as filtered and sorted views of data.
+The app will support **basic CRUD operations** for individual training sessions, as well as **filtered and sorted views** of data.
+
+This application was developed as a part of studies in TAMK to demonstrate skills in building a fullstack application.
 
 ## Release History
 

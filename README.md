@@ -22,7 +22,7 @@ This application was developed as a part of studies in TAMK to demonstrate skill
 ## Todo
 
 - [x] Initialize project
-- [ ] Design and create database
+- [x] Design and create database
 - [ ] Create basic CRUD methods for database (user)
 - [ ] Create basic CRUD methods for database (admin)
 - [ ] Create simple frontend and routing to access database
@@ -53,7 +53,7 @@ $ npm install
 * **Backend**
   * *Node.js*
   * *Express.js*
-  * *MySQL*
+  * *MariaDB*
 
 <!-- Markdown link & img dfn's -->
 [current-version]: https://img.shields.io/badge/version-0.0.1-yellow

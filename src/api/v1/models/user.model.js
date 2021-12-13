@@ -7,13 +7,15 @@ const User = (user) => {
   this.email = user.email
 }
 
-User.getAll = (callback) => {
-  pool.query('SELECT * from ser', (err, data) => {
-    if (err) {
-      callback(err, null)
-    } else {
-      callback(null, data)
-    }
+User.getAll = () => {
+  return new Promise((resolve, reject) => {
+    pool.query('SELECT * from user', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
   })
 }
 

@@ -9,7 +9,7 @@ const User = (user) => {
 
 User.getAll = () => {
   return new Promise((resolve, reject) => {
-    pool.query('SELECT * from user', (err, data) => {
+    pool.query('SELECT * from uer', (err, data) => {
       if (err) {
         reject(err)
       } else {

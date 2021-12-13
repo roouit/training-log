@@ -8,3 +8,27 @@ exports.getAllUsers = async (req, res, next) => {
     next(err)
   }
 }
+
+exports.getUserById = async (req, res, next) => {
+  try {
+    // todo
+  } catch (err) {
+    next(err)
+  }
+}
+
+exports.createNewUser = async (req, res, next) => {
+  try {
+    // todo
+  } catch (err) {
+    next(err)
+  }
+}
+
+exports.deleteUserById = async (req, res, next) => {
+  try {
+    // todo
+  } catch (err) {
+    next(err)
+  }
+}

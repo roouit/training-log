@@ -19,4 +19,16 @@ User.getAll = () => {
   })
 }
 
+User.getById = (id) => {
+  // todo
+}
+
+User.create = (user) => {
+  // todo
+}
+
+User.deleteById = (id) => {
+  // todo
+}
+
 module.exports = User

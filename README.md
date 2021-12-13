@@ -4,7 +4,7 @@
 
 > Tracks your progress in the gym without pen and paper
 
-![](header.png)
+![](docs/header.png)
 
 ## About
 

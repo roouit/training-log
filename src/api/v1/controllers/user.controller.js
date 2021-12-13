@@ -1,5 +1,12 @@
 const User = require('../models/user.model')
 
+/**
+ * Try to get all users from database.
+ * @function A route handler function
+ * @param {Object} req - The request.
+ * @param {Object} res - The response.
+ * @param {Function} next - The next middleware
+ */
 exports.getAllUsers = async (req, res, next) => {
   try {
     const response = await User.getAll()

@@ -1,3 +1,11 @@
+/**
+ * Checks contents of err object and sends an error response to client.
+ * @function The general error handler function
+ * @param {Object} err - The error.
+ * @param {Object} req - The request.
+ * @param {Object} res - The response.
+ * @param {Function} next - The next middleware
+ */
 const errorController = (err, req, res, next) => {
   if (err.sqlMessage) {
     res.status(500).send({

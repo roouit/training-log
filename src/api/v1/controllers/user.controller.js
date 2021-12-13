@@ -1,13 +1,11 @@
-const pool = require('../utils/db')
+const User = require('../models/user.model')
 
-module.exports = {
-  getAllUsers: (req, res) => {
-    pool.query('SELECT * from user', (error, results) => {
-      if (error) {
-        console.log(error)
-      } else {
-        res.send(results)
-      }
-    })
-  }
+exports.getAllUsers = (req, res) => {
+  User.getAll((err, data) => {
+    if (err) {
+      res.status(404).send(err)
+    } else {
+      res.send(data)
+    }
+  })
 }

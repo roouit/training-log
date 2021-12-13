@@ -1,0 +1,32 @@
+# Get all users
+GET http://localhost:8080/api/v1/users
+###
+
+# # Get locations with filters
+# GET http://localhost:3001/locations?longitude=90&latitude>0
+# ###
+
+# # Get locations and sort
+# GET http://localhost:3001/locations?sort=+longitude
+# ###
+
+# # Get locations with filters and sort
+# GET http://localhost:3001/locations?latitude<0&longitude>0&sort=-latitude
+# ###
+
+# # Get location by id
+# GET http://localhost:3001/locations/19
+# ###
+
+# # Delete location by id
+# DELETE http://localhost:3001/locations/19
+# ###
+
+# # Post location
+# POST http://localhost:3001/locations
+# Content-Type: application/json
+
+# {
+#     "latitude": 20,
+#     "longitude": 20.1
+# }

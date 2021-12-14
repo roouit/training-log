@@ -17,7 +17,7 @@ function User (user) {
 }
 
 /**
- * Query all users
+ * Select all users
  * @returns {Promise} Promise object that represents all users or error
  */
 User.getAll = () => {
@@ -33,7 +33,7 @@ User.getAll = () => {
 }
 
 /**
- * Query a single user by id
+ * Select a single user by id
  * @param {string} id - The id of a user
  * @returns {Promise} Promise object that represents a user or error
  */
@@ -49,8 +49,25 @@ User.getById = (id) => {
   })
 }
 
+/**
+ * Insert a new user
+ * @param {User} user - The user object
+ * @returns {Promise} Promise object that represents results of the insert query or error
+ */
 User.create = (user) => {
-  // todo
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'INSERT INTO user (username, first_name, last_name, email) VALUES (?, ?, ?, ?)',
+      [user.username, user.first_name, user.last_name, user.email],
+      (err, data) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      }
+    )
+  })
 }
 
 User.deleteById = (id) => {

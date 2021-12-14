@@ -32,9 +32,23 @@ exports.getUserById = async (req, res, next) => {
   }
 }
 
+/**
+ * A route handler function that tries to add a new user to database.
+ * @param {Object} req - The request.
+ * @param {Object} res - The response.
+ * @param {Function} next - The next middleware
+ */
 exports.createNewUser = async (req, res, next) => {
+  const user = new User({
+    username: req.body.username,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    email: req.body.email
+  })
   try {
-    // todo
+    const response = await User.create(user)
+    res.location(`api/v1/users/${response.insertId}`)
+    res.status(201).send(user)
   } catch (err) {
     next(err)
   }

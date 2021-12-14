@@ -35,7 +35,7 @@ exports.getUserById = async (req, res, next) => {
 /**
  * A route handler function that tries to add a new user to database.
  * @param {Object} req - The request.
- * @param {Object} req.body - The object representing user data
+ * @param {Object} req.body - The object representing new user data
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
@@ -58,7 +58,7 @@ exports.createNewUser = async (req, res, next) => {
 /**
  * A route handler function that tries to delete a user from database by id.
  * @param {Object} req - The request.
- * @param {string} req.params.id - The id of a user
+ * @param {string} req.params.id - The id of a user to delete
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
@@ -67,6 +67,30 @@ exports.deleteUserById = async (req, res, next) => {
   try {
     await User.deleteById(id)
     res.status(204).send()
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
+ * A route handler function that tries to update user data in database.
+ * @param {Object} req - The request.
+ * @param {string} req.params.id - The id of a user to update
+ * @param {Object} req.body - The object representing new user data
+ * @param {Object} res - The response.
+ * @param {Function} next - The next middleware
+ */
+exports.updateUserById = async (req, res, next) => {
+  const id = req.params.id
+  const user = new User({
+    username: req.body.username,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    email: req.body.email
+  })
+  try {
+    const response = await User.updateById(id, user)
+    res.send(response)
   } catch (err) {
     next(err)
   }

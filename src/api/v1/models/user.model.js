@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 const pool = require('../utils/db')
+const { getSetParams } = require('../utils/createUpdateQuery')
 
 /**
  * Creates a new user instance.
@@ -84,6 +86,29 @@ User.deleteById = (id) => {
         resolve(data)
       }
     })
+  })
+}
+
+/**
+ * Update user data by id
+ * @param {string} id - The id of a user
+ * @param {User} user - The user object with new data
+ * @returns {Promise} Promise object that represents results of the update query or error
+ */
+User.updateById = (id, user) => {
+  return new Promise((resolve, reject) => {
+    const [setParams, placeholders] = getSetParams(user)
+    pool.query(
+      `UPDATE user SET ${setParams} WHERE id = ?`,
+      [...placeholders, id],
+      (err, data) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      }
+    )
   })
 }
 

@@ -70,8 +70,21 @@ User.create = (user) => {
   })
 }
 
+/**
+ * Delete a single user by id
+ * @param {string} id - The id of a user
+ * @returns {Promise} Promise object that represents results of the delete query or error
+ */
 User.deleteById = (id) => {
-  // todo
+  return new Promise((resolve, reject) => {
+    pool.query('DELETE FROM user WHERE id = ?', [id], (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
 }
 
 module.exports = User

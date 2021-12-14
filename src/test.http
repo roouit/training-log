@@ -1,24 +1,15 @@
 GET http://localhost:8080/api/v1/users
 ###
-
+GET http://localhost:8080/api/v1/exercises
+###
 GET http://localhost:8080/api/v1/users/10
 ###
-
-# # Get locations with filters
-# GET http://localhost:3001/locations?longitude=90&latitude>0
-# ###
-
-# # Get locations and sort
-# GET http://localhost:3001/locations?sort=+longitude
-# ###
-
-# # Get locations with filters and sort
-# GET http://localhost:3001/locations?latitude<0&longitude>0&sort=-latitude
-# ###
-
+GET http://localhost:8080/api/v1/exercises/1
+###
 DELETE http://localhost:8080/api/v1/users/12
 ###
-
+DELETE http://localhost:8080/api/v1/exercises/11
+###
 POST http://localhost:8080/api/v1/users
 Content-Type: application/json
 
@@ -28,7 +19,13 @@ Content-Type: application/json
   "email": "pekka@gmail.com"
 }
 ###
+POST http://localhost:8080/api/v1/exercises
+Content-Type: application/json
 
+{
+  "exercise_name": "Banded pullup"
+}
+###
 PUT http://localhost:8080/api/v1/users/4
 Content-Type: application/json
 
@@ -37,4 +34,11 @@ Content-Type: application/json
   "first_name": null,
   "last_name": null,
   "email": null
+}
+###
+PUT http://localhost:8080/api/v1/exercises/44
+Content-Type: application/json
+
+{
+  "exercise_name": "RDL"
 }

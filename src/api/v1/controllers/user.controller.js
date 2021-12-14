@@ -1,8 +1,7 @@
 const User = require('../models/user.model')
 
 /**
- * Try to get all users from database.
- * @function A route handler function
+ * A route handler function that tries to get all users from database.
  * @param {Object} req - The request.
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
@@ -16,9 +15,18 @@ exports.getAllUsers = async (req, res, next) => {
   }
 }
 
+/**
+ * A route handler function that tries to get a user from database by id.
+ * @param {Object} req - The request.
+ * @param {string} req.params.id - The id of a user
+ * @param {Object} res - The response.
+ * @param {Function} next - The next middleware
+ */
 exports.getUserById = async (req, res, next) => {
+  const id = req.params.id
   try {
-    // todo
+    const response = await User.getById(id)
+    res.send(response)
   } catch (err) {
     next(err)
   }

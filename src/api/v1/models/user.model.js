@@ -17,8 +17,8 @@ function User (user) {
 }
 
 /**
- * Query all users from database.
- * @returns {Promise} Promise object that represents user data or error.
+ * Query all users
+ * @returns {Promise} Promise object that represents all users or error
  */
 User.getAll = () => {
   return new Promise((resolve, reject) => {
@@ -32,8 +32,21 @@ User.getAll = () => {
   })
 }
 
+/**
+ * Query a single user by id
+ * @param {string} id - The id of a user
+ * @returns {Promise} Promise object that represents a user or error
+ */
 User.getById = (id) => {
-  // todo
+  return new Promise((resolve, reject) => {
+    pool.query('SELECT * from user WHERE id = ?', [id], (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
 }
 
 User.create = (user) => {

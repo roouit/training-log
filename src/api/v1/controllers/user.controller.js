@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const User = require('../models/user.model')
 
 /**
@@ -18,14 +19,14 @@ exports.getAllUsers = async (req, res, next) => {
 /**
  * A route handler function that tries to get a user from database by id.
  * @param {Object} req - The request.
- * @param {string} req.params.id - The id of a user
+ * @param {string} req.params.user_id - The id of a user
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
 exports.getUserById = async (req, res, next) => {
-  const id = req.params.id
+  const user_id = req.params.user_id
   try {
-    const response = await User.getById(id)
+    const response = await User.getById(user_id)
     res.send(response)
   } catch (err) {
     next(err)
@@ -58,14 +59,14 @@ exports.createNewUser = async (req, res, next) => {
 /**
  * A route handler function that tries to delete a user from database by id.
  * @param {Object} req - The request.
- * @param {string} req.params.id - The id of a user to delete
+ * @param {string} req.params.user_id - The id of a user to delete
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
 exports.deleteUserById = async (req, res, next) => {
-  const id = req.params.id
+  const user_id = req.params.user_id
   try {
-    await User.deleteById(id)
+    await User.deleteById(user_id)
     res.status(204).send()
   } catch (err) {
     next(err)
@@ -75,13 +76,13 @@ exports.deleteUserById = async (req, res, next) => {
 /**
  * A route handler function that tries to update user data in database.
  * @param {Object} req - The request.
- * @param {string} req.params.id - The id of a user to update
+ * @param {string} req.params.user_id - The id of a user to update
  * @param {Object} req.body - The object representing new user data
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
 exports.updateUserById = async (req, res, next) => {
-  const id = req.params.id
+  const user_id = req.params.user_id
   const user = new User({
     username: req.body.username,
     first_name: req.body.first_name,
@@ -89,7 +90,7 @@ exports.updateUserById = async (req, res, next) => {
     email: req.body.email
   })
   try {
-    const response = await User.updateById(id, user)
+    const response = await User.updateById(user_id, user)
     res.send(response)
   } catch (err) {
     next(err)

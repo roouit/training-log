@@ -9,7 +9,7 @@ const { getSetParams } = require('../utils/createUpdateQuery')
  * @param {string} user.username - The username of the user
  * @param {string} [user.first_name] - The first name of the user
  * @param {string} [user.last_name] - The last name of the user
- * @param {string} [user.email] - The email of the user
+ * @param {string} user.email - The email of the user
  */
 function User (user) {
   this.username = user.username

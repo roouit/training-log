@@ -38,14 +38,15 @@ exports.getUserWorkoutById = async (req, res, next) => {
 /**
  * A route handler function that tries to add a new workout to database.
  * @param {Object} req - The request.
- * @param {Object} req.body - The object representing new workout data
+ * @param {Object} req.body - The Workout object representing new workout data
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
 exports.createNewWorkout = async (req, res, next) => {
   const workout = new Workout({
     user_id: req.body.user_id,
-    date: req.body.date
+    date: req.body.date,
+    entries: req.body.entries
   })
   try {
     const response = await Workout.create(workout)

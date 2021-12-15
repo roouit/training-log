@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const pool = require('../utils/db')
+const db = require('../utils/db')
 const { getSetParams } = require('../utils/createUpdateQuery')
 
 /**
@@ -77,7 +77,7 @@ function Workout (workout) {
  */
 Workout.getAll = (user_id) => {
   return new Promise((resolve, reject) => {
-    pool.query(
+    db.pool.query(
       `SELECT * FROM workout_exercises 
       INNER JOIN workout 
       ON workout_exercises.workout_id = workout.id 
@@ -101,7 +101,7 @@ Workout.getAll = (user_id) => {
  */
 Workout.getById = (workout_id) => {
   return new Promise((resolve, reject) => {
-    pool.query(
+    db.pool.query(
       `SELECT * FROM workout_exercises 
       INNER JOIN workout 
       ON workout_exercises.workout_id = workout.id 
@@ -119,23 +119,49 @@ Workout.getById = (workout_id) => {
 }
 
 /**
- * Insert a new workout for the user
+ * Insert a new workout and all rows as a transaction for the user.
  * @param {Workout} workout - The workout object
  * @returns {Promise} Promise object that represents results of the insert query or error
  */
 Workout.create = (workout) => {
   return new Promise((resolve, reject) => {
-    pool.query(
-      'INSERT INTO workout (user_id, date) VALUES (?, ?)',
-      [workout.user_id, workout.date],
-      (err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(data)
-        }
+    async function transaction () {
+      const connection = await db.connection()
+      try {
+        await connection.query('START TRANSACTION')
+        const result = await connection.query(
+          'INSERT INTO workout (user_id, date) VALUES (?, ?)',
+          [workout.user_id, workout.date])
+        const rows = workout.entries.map(async entry => {
+          return (
+            connection.query(
+              'INSERT INTO workout_exercises (workout_id, exercise_id, set_number, repetitions, `load`) VALUES (?, ?, ?, ?, ?)',
+              [
+                result.insertId,
+                entry.exercise_id,
+                entry.set_number,
+                entry.repetitions,
+                entry.load
+              ]
+            )
+          )
+        })
+        Promise.all(rows)
+        await connection.query('COMMIT')
+        resolve({
+          ...workout,
+          workout_id: result.workout_id
+        })
+      } catch (err) {
+        console.log('catch')
+        await connection.query('ROLLBACK')
+        reject(err)
+      } finally {
+        console.log('finally')
+        await connection.release()
       }
-    )
+    }
+    transaction()
   })
 }
 
@@ -147,7 +173,7 @@ Workout.create = (workout) => {
  */
 Workout.deleteById = (workout_id, user_id) => {
   return new Promise((resolve, reject) => {
-    pool.query(
+    db.pool.query(
       'DELETE FROM workout WHERE id = ? AND user_id = ?',
       [workout_id, user_id],
       (err, data) => {
@@ -171,7 +197,7 @@ Workout.deleteById = (workout_id, user_id) => {
 Workout.updateById = (workout_id, workout, user_id) => {
   return new Promise((resolve, reject) => {
     const [setParams, placeholders] = getSetParams(workout)
-    pool.query(
+    db.pool.query(
       `UPDATE workout SET ${setParams} WHERE id = ? AND user_id = ?`,
       [...placeholders, workout_id, user_id],
       (err, data) => {

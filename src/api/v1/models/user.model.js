@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const pool = require('../utils/db')
+const db = require('../utils/db')
 const { getSetParams } = require('../utils/createUpdateQuery')
 
 /**
@@ -24,7 +24,7 @@ function User (user) {
  */
 User.getAll = () => {
   return new Promise((resolve, reject) => {
-    pool.query('SELECT * from user', (err, data) => {
+    db.pool.query('SELECT * from user', (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -41,7 +41,7 @@ User.getAll = () => {
  */
 User.getById = (id) => {
   return new Promise((resolve, reject) => {
-    pool.query('SELECT * from user WHERE id = ?', [id], (err, data) => {
+    db.pool.query('SELECT * from user WHERE id = ?', [id], (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -58,7 +58,7 @@ User.getById = (id) => {
  */
 User.create = (user) => {
   return new Promise((resolve, reject) => {
-    pool.query(
+    db.pool.query(
       'INSERT INTO user (username, first_name, last_name, email) VALUES (?, ?, ?, ?)',
       [user.username, user.first_name, user.last_name, user.email],
       (err, data) => {
@@ -79,7 +79,7 @@ User.create = (user) => {
  */
 User.deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    pool.query('DELETE FROM user WHERE id = ?', [id], (err, data) => {
+    db.pool.query('DELETE FROM user WHERE id = ?', [id], (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -98,7 +98,7 @@ User.deleteById = (id) => {
 User.updateById = (id, user) => {
   return new Promise((resolve, reject) => {
     const [setParams, placeholders] = getSetParams(user)
-    pool.query(
+    db.pool.query(
       `UPDATE user SET ${setParams} WHERE id = ?`,
       [...placeholders, id],
       (err, data) => {

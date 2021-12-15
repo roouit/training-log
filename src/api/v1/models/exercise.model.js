@@ -1,4 +1,4 @@
-const pool = require('../utils/db')
+const db = require('../utils/db')
 const { getSetParams } = require('../utils/createUpdateQuery')
 
 /**
@@ -17,7 +17,7 @@ function Exercise (exercise) {
  */
 Exercise.getAll = () => {
   return new Promise((resolve, reject) => {
-    pool.query('SELECT * from exercise', (err, data) => {
+    db.pool.query('SELECT * from exercise', (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -34,7 +34,7 @@ Exercise.getAll = () => {
  */
 Exercise.getById = (id) => {
   return new Promise((resolve, reject) => {
-    pool.query('SELECT * from exercise WHERE id = ?', [id], (err, data) => {
+    db.pool.query('SELECT * from exercise WHERE id = ?', [id], (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -51,7 +51,7 @@ Exercise.getById = (id) => {
  */
 Exercise.create = (exercise) => {
   return new Promise((resolve, reject) => {
-    pool.query(
+    db.pool.query(
       'INSERT INTO exercise (exercise_name) VALUES (?)',
       [exercise.exercise_name],
       (err, data) => {
@@ -72,7 +72,7 @@ Exercise.create = (exercise) => {
  */
 Exercise.deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    pool.query('DELETE FROM exercise WHERE id = ?', [id], (err, data) => {
+    db.pool.query('DELETE FROM exercise WHERE id = ?', [id], (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -91,7 +91,7 @@ Exercise.deleteById = (id) => {
 Exercise.updateById = (id, exercise) => {
   return new Promise((resolve, reject) => {
     const [setParams, placeholders] = getSetParams(exercise)
-    pool.query(
+    db.pool.query(
       `UPDATE exercise SET ${setParams} WHERE id = ?`,
       [...placeholders, id],
       (err, data) => {

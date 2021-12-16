@@ -193,10 +193,29 @@ Workout.deleteById = (workout_id) => {
 }
 
 /**
- * Update workout data by id
+ * Update workout and workout rows by `workout_id`. All undefined keys in the Workout
+ * object are ignored and all defined keys are used for updating the corresponding
+ * fields in the database, **except** entry `id`. If one or multiple entries
+ * are provided, they all must have `id` defined. The `id` is ignored when updating.
  * @param {string} workout_id - The id of a workout
  * @param {Workout} workout - The workout object with new data
  * @returns {Promise} Promise object that represents results of the update query or error
+ * @example <caption>Example contents of a Workout object:</caption>
+ * {
+ * "workout_id": undefined,
+ * "user_id": undefined,
+ * "date": "2021-10-10 11:06:00",
+ * "entries": [
+ *     {
+ *       "id": 35,
+ *       "repetitions": 8
+ *     },
+ *     {
+ *       "id": 36,
+ *       "load": 10
+ *     }
+ *   ]
+ * }
  */
 Workout.updateById = (workout_id, workout) => {
   return new Promise((resolve, reject) => {
@@ -237,18 +256,5 @@ Workout.updateById = (workout_id, workout) => {
     transaction()
   })
 }
-
-// const [setParams, placeholders] = getSetParams(workout)
-// db.pool.query(
-//   `UPDATE workout SET ${setParams} WHERE id = ?`,
-//   [...placeholders, workout_id],
-//   (err, data) => {
-//     if (err) {
-//       reject(err)
-//     } else {
-//       resolve(data)
-//     }
-//   }
-// )
 
 module.exports = Workout

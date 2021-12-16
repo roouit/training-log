@@ -23,11 +23,11 @@ This application was developed as a part of studies in TAMK to demonstrate skill
 
 - [x] Initialize project
 - [x] Design and create database
-- [ ] Create basic CRUD methods for database (user)
-- [ ] Create basic CRUD methods for database (admin)
-- [ ] Create simple frontend and routing to access database
+- [x] Create basic CRUD methods for database (user)
+- [x] Create basic CRUD methods for database (admin)
 - [ ] Create advanced routing (filtering and sorting)
 - [ ] Create robust error handling
+- [ ] Create simple frontend for accessing API endpoints
 - [ ] Design and create a nice UI for the app
 - [ ] (Optional) Add authentication
 - [ ] (Optional) Add license before publishing

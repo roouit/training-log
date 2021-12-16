@@ -196,24 +196,59 @@ Workout.deleteById = (workout_id) => {
  * Update workout data by id
  * @param {string} workout_id - The id of a workout
  * @param {Workout} workout - The workout object with new data
- * @param {string} user_id - The id of the user whose workout is updated
  * @returns {Promise} Promise object that represents results of the update query or error
  */
-Workout.updateById = (workout_id, workout, user_id) => {
+Workout.updateById = (workout_id, workout) => {
   return new Promise((resolve, reject) => {
-    const [setParams, placeholders] = getSetParams(workout)
-    db.pool.query(
-      `UPDATE workout SET ${setParams} WHERE id = ? AND user_id = ?`,
-      [...placeholders, workout_id, user_id],
-      (err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(data)
+    async function transaction () {
+      const { entries, ...other } = workout
+      const connection = await db.connection()
+      try {
+        await connection.query('START TRANSACTION')
+        if (Object.values(other).some((val) => val)) {
+          const [workoutSetParams, workoutPlaceholders] = getSetParams(other)
+          await connection.query(
+            `UPDATE workout SET ${workoutSetParams} WHERE id = ?`,
+            [...workoutPlaceholders, workout_id]
+          )
         }
+        if (entries) {
+          const rows = entries.map(async (entry) => {
+            const id = entry.id
+            delete entry.id
+            const [entrySetParams, entryPlaceholders] =
+              getSetParams(entry)
+            return connection.query(
+              `UPDATE workout_exercises SET ${entrySetParams} WHERE id = ?`,
+              [...entryPlaceholders, id]
+            )
+          })
+          await Promise.all(rows)
+        }
+        await connection.query('COMMIT')
+        resolve()
+      } catch (err) {
+        await connection.query('ROLLBACK')
+        reject(err)
+      } finally {
+        await connection.release()
       }
-    )
+    }
+    transaction()
   })
 }
+
+// const [setParams, placeholders] = getSetParams(workout)
+// db.pool.query(
+//   `UPDATE workout SET ${setParams} WHERE id = ?`,
+//   [...placeholders, workout_id],
+//   (err, data) => {
+//     if (err) {
+//       reject(err)
+//     } else {
+//       resolve(data)
+//     }
+//   }
+// )
 
 module.exports = Workout

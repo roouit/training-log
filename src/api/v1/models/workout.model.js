@@ -56,6 +56,7 @@ const formatSingleWorkout = (rowList) => {
  * @param {string} workout.user_id - The id of the user who performed this workout
  * @param {string} workout.date - The datetime when the workout was performed
  * @param {Array} workout.entries - An array of workout entry objects
+ * @param {string} workout.entries.id - The id of the row entry
  * @param {string} workout.entries.exercise_id - The id of the exercise
  * @param {string} workout.entries.set_number - The ordinal set number of an exercise in this workout.
  *                                              E.g. set_number=2 means that this is the entry for a
@@ -129,29 +130,28 @@ Workout.create = (workout) => {
       const connection = await db.connection()
       try {
         await connection.query('START TRANSACTION')
-        const result = await connection.query(
+        const rp = await connection.query(
           'INSERT INTO workout (user_id, date) VALUES (?, ?)',
           [workout.user_id, workout.date])
         const rows = workout.entries.map(async entry => {
-          return (
-            connection.query(
-              'INSERT INTO workout_exercises (workout_id, exercise_id, set_number, repetitions, `load`) VALUES (?, ?, ?, ?, ?)',
-              [
-                result.insertId,
-                entry.exercise_id,
-                entry.set_number,
-                entry.repetitions,
-                entry.load
-              ]
-            )
+          return connection.query(
+            'INSERT INTO workout_exercises (workout_id, exercise_id, set_number, repetitions, `load`) VALUES (?, ?, ?, ?, ?)',
+            [
+              rp.insertId,
+              entry.exercise_id,
+              entry.set_number,
+              entry.repetitions,
+              entry.load
+            ]
           )
         })
-        Promise.all(rows)
-        await connection.query('COMMIT')
-        resolve({
-          ...workout,
-          workout_id: result.workout_id
+        const rp2 = await Promise.all(rows)
+        rp2.forEach((packet, index) => {
+          workout.entries[index].id = packet.insertId
         })
+        await connection.query('COMMIT')
+        workout.workout_id = rp.insertId
+        resolve()
       } catch (err) {
         await connection.query('ROLLBACK')
         reject(err)
@@ -191,18 +191,6 @@ Workout.deleteById = (workout_id) => {
     transaction()
   })
 }
-
-// db.pool.query(
-//   'DELETE FROM workout WHERE id = ? AND user_id = ?',
-//   [workout_id, user_id],
-//   (err, data) => {
-//     if (err) {
-//       reject(err)
-//     } else {
-//       resolve(data)
-//     }
-//   }
-// )
 
 /**
  * Update workout data by id

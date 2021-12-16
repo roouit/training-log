@@ -49,9 +49,9 @@ exports.createNewWorkout = async (req, res, next) => {
     entries: req.body.entries
   })
   try {
-    const response = await Workout.create(workout)
+    await Workout.create(workout)
     res.location(
-      `api/v1/users/${req.body.user_id}/workouts/${response.insertId}`
+      `api/v1/users/${req.body.user_id}/workouts/${workout.workout_id}`
     )
     res.status(201).send(workout)
   } catch (err) {

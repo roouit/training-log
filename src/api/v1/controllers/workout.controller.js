@@ -62,16 +62,14 @@ exports.createNewWorkout = async (req, res, next) => {
 /**
  * A route handler function that tries to delete a user workout from database by id.
  * @param {Object} req - The request.
- * @param {string} req.params.user_id - The id of the user
  * @param {string} req.params.workout_id - The id of the workout
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
 exports.deleteWorkoutById = async (req, res, next) => {
-  const user_id = req.params.user_id
   const workout_id = req.params.workout_id
   try {
-    await Workout.deleteById(workout_id, user_id)
+    await Workout.deleteById(workout_id)
     res.status(204).send()
   } catch (err) {
     next(err)

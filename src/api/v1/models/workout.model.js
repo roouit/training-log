@@ -153,11 +153,9 @@ Workout.create = (workout) => {
           workout_id: result.workout_id
         })
       } catch (err) {
-        console.log('catch')
         await connection.query('ROLLBACK')
         reject(err)
       } finally {
-        console.log('finally')
         await connection.release()
       }
     }
@@ -166,26 +164,45 @@ Workout.create = (workout) => {
 }
 
 /**
- * Delete a single workout from a specific user by workout id
+ * Delete a single workout and associated workout rows by workout id
  * @param {string} workout_id - The id of a workout
- * @param {string} user_id - The id of the user whose workout is deleted
  * @returns {Promise} Promise object that represents results of the delete query or error
  */
-Workout.deleteById = (workout_id, user_id) => {
+Workout.deleteById = (workout_id) => {
   return new Promise((resolve, reject) => {
-    db.pool.query(
-      'DELETE FROM workout WHERE id = ? AND user_id = ?',
-      [workout_id, user_id],
-      (err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(data)
-        }
+    async function transaction () {
+      const connection = await db.connection()
+      try {
+        await connection.query('START TRANSACTION')
+        await connection.query(
+          'DELETE FROM workout_exercises WHERE workout_id = ?',
+          [workout_id]
+        )
+        await connection.query('DELETE FROM workout WHERE id = ?', [workout_id])
+        await connection.query('COMMIT')
+        resolve()
+      } catch (err) {
+        await connection.query('ROLLBACK')
+        reject(err)
+      } finally {
+        await connection.release()
       }
-    )
+    }
+    transaction()
   })
 }
+
+// db.pool.query(
+//   'DELETE FROM workout WHERE id = ? AND user_id = ?',
+//   [workout_id, user_id],
+//   (err, data) => {
+//     if (err) {
+//       reject(err)
+//     } else {
+//       resolve(data)
+//     }
+//   }
+// )
 
 /**
  * Update workout data by id

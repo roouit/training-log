@@ -21,7 +21,7 @@ exports.getSetParams = (obj) => {
   Object.entries(obj).forEach(([key, value]) => {
     if (value !== undefined) {
       queryValues.push(value)
-      sql += `${key} = ?, `
+      sql += `\`${key}\` = ?, `
     }
   })
   return [sql.substring(0, sql.length - 2), queryValues]

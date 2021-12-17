@@ -74,24 +74,35 @@ function Workout (workout) {
 /**
  * Select all workouts for the current user
  * @param {string} user_id - The id of the user whose workouts are queried
+ * @param {Number} limit - The number determining how many workouts are fetched
+ * @param {Number} offset - The number determining how many workouts are skipped
+ *                          from the beginning when fetching data
  * @returns {Promise} Promise object that represents all workouts or error
  */
-Workout.getAll = (user_id) => {
+Workout.getAll = (user_id, limit, offset) => {
   return new Promise((resolve, reject) => {
-    db.pool.query(
-      `SELECT * FROM workout_exercises 
-      INNER JOIN workout 
-      ON workout_exercises.workout_id = workout.id 
-      WHERE workout.user_id = ?`,
-      [user_id],
-      (err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(formatWorkouts(data))
-        }
+    async function query () {
+      const connection = await db.connection()
+      try {
+        const workouts = await connection.query(
+          'SELECT * FROM workout WHERE user_id = ? ORDER BY date DESC LIMIT ? OFFSET ?',
+          [user_id, limit, offset]
+        )
+        const workout_ids = workouts.map(workout => {
+          return workout.id
+        })
+        const result = await connection.query(
+          'SELECT * FROM workout INNER JOIN workout_exercises ON workout_exercises.workout_id = workout.id WHERE workout.id IN (?)',
+          [workout_ids]
+        )
+        resolve(formatWorkouts(result))
+      } catch (err) {
+        reject(err)
+      } finally {
+        await connection.release()
       }
-    )
+    }
+    query()
   })
 }
 

@@ -5,13 +5,18 @@ const Workout = require('../models/workout.model')
  * A route handler function that tries to get all of the users workouts from database.
  * @param {Object} req - The request.
  * @param {string} req.params.user_id - The id of the user
+ * @param {string} req.query.limit - The number determining how many workouts are fetched
+ * @param {string} req.query.offset - The number determining how many workouts are skipped
+ *                                    from the beginning when fetching data
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
 exports.getAllUserWorkouts = async (req, res, next) => {
   const user_id = req.params.user_id
+  const limit = parseInt(req.query.limit)
+  const offset = parseInt(req.query.offset)
   try {
-    const response = await Workout.getAll(user_id)
+    const response = await Workout.getAll(user_id, limit, offset)
     res.send(response)
   } catch (err) {
     next(err)

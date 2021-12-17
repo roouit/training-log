@@ -5,9 +5,11 @@ const { getSetParams } = require('../utils/createUpdateQuery')
  * Creates a new exercise instance.
  * @constructor
  * @param {Object} exercise - An exercise in the database
+ * @param {string} id - The id of the exercise
  * @param {string} exercise.exercise_name - The name of the exercise
  */
 function Exercise (exercise) {
+  this.id = exercise.id
   this.exercise_name = exercise.exercise_name
 }
 
@@ -21,7 +23,13 @@ Exercise.getAll = () => {
       if (err) {
         reject(err)
       } else {
-        resolve(data)
+        const exercises = data.map((exercise) => {
+          return new Exercise({
+            id: exercise.id,
+            exercise_name: exercise.exercise_name
+          })
+        })
+        resolve(exercises)
       }
     })
   })
@@ -38,7 +46,11 @@ Exercise.getById = (id) => {
       if (err) {
         reject(err)
       } else {
-        resolve(data)
+        const exercise = new Exercise({
+          id: data[0].id,
+          exercise_name: data[0].exercise_name
+        })
+        resolve(exercise)
       }
     })
   })
@@ -58,7 +70,8 @@ Exercise.create = (exercise) => {
         if (err) {
           reject(err)
         } else {
-          resolve(data)
+          exercise.id = data.insertId
+          resolve()
         }
       }
     )
@@ -76,7 +89,7 @@ Exercise.deleteById = (id) => {
       if (err) {
         reject(err)
       } else {
-        resolve(data)
+        resolve()
       }
     })
   })
@@ -98,7 +111,7 @@ Exercise.updateById = (id, exercise) => {
         if (err) {
           reject(err)
         } else {
-          resolve(data)
+          resolve()
         }
       }
     )

@@ -6,12 +6,14 @@ const { getSetParams } = require('../utils/createUpdateQuery')
  * Creates a new user instance.
  * @constructor
  * @param {Object} user - A user in the database
+ * @param {string} user.id - The id of the user
  * @param {string} user.username - The username of the user
  * @param {string} [user.first_name] - The first name of the user
  * @param {string} [user.last_name] - The last name of the user
  * @param {string} user.email - The email of the user
  */
 function User (user) {
+  this.id = user.id
   this.username = user.username
   this.first_name = user.first_name
   this.last_name = user.last_name
@@ -28,7 +30,16 @@ User.getAll = () => {
       if (err) {
         reject(err)
       } else {
-        resolve(data)
+        const users = data.map(user => {
+          return new User({
+            id: user.id,
+            username: user.username,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email
+          })
+        })
+        resolve(users)
       }
     })
   })
@@ -45,7 +56,14 @@ User.getById = (id) => {
       if (err) {
         reject(err)
       } else {
-        resolve(data)
+        const user = new User({
+          id: data[0].id,
+          username: data[0].username,
+          first_name: data[0].first_name,
+          last_name: data[0].last_name,
+          email: data[0].email
+        })
+        resolve(user)
       }
     })
   })
@@ -65,7 +83,8 @@ User.create = (user) => {
         if (err) {
           reject(err)
         } else {
-          resolve(data)
+          user.id = data.insertId
+          resolve()
         }
       }
     )
@@ -105,7 +124,7 @@ User.updateById = (id, user) => {
         if (err) {
           reject(err)
         } else {
-          resolve(data)
+          resolve()
         }
       }
     )

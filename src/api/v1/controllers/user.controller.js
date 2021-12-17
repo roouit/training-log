@@ -48,8 +48,8 @@ exports.createNewUser = async (req, res, next) => {
     email: req.body.email
   })
   try {
-    const response = await User.create(user)
-    res.location(`api/v1/users/${response.insertId}`)
+    await User.create(user)
+    res.location(`api/v1/users/${user.id}`)
     res.status(201).send(user)
   } catch (err) {
     next(err)
@@ -90,8 +90,8 @@ exports.updateUserById = async (req, res, next) => {
     email: req.body.email
   })
   try {
-    const response = await User.updateById(user_id, user)
-    res.send(response)
+    await User.updateById(user_id, user)
+    res.status(200).send()
   } catch (err) {
     next(err)
   }

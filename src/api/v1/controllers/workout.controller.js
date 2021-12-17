@@ -91,8 +91,8 @@ exports.updateWorkoutById = async (req, res, next) => {
     entries: req.body.entries
   })
   try {
-    const response = await Workout.updateById(workout_id, workout)
-    res.send(response)
+    await Workout.updateById(workout_id, workout)
+    res.status(200).send()
   } catch (err) {
     next(err)
   }

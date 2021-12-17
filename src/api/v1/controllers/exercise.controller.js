@@ -44,8 +44,8 @@ exports.createNewExercise = async (req, res, next) => {
     exercise_name: req.body.exercise_name
   })
   try {
-    const response = await Exercise.create(exercise)
-    res.location(`api/v1/exercises/${response.insertId}`)
+    await Exercise.create(exercise)
+    res.location(`api/v1/exercises/${exercise.id}`)
     res.status(201).send(exercise)
   } catch (err) {
     next(err)
@@ -83,8 +83,8 @@ exports.updateExerciseById = async (req, res, next) => {
     exercise_name: req.body.exercise_name
   })
   try {
-    const response = await Exercise.updateById(id, exercise)
-    res.send(response)
+    await Exercise.updateById(id, exercise)
+    res.status(200).send()
   } catch (err) {
     next(err)
   }

@@ -25,8 +25,16 @@ exports.getAllExercises = async (req, res, next) => {
 exports.getExerciseById = async (req, res, next) => {
   const id = req.params.id
   try {
-    const response = await Exercise.getById(id)
-    res.send(response)
+    const [response] = await Exercise.getById(id)
+    if (response) {
+      const exercise = new Exercise({
+        id: response.id,
+        exercise_name: response.exercise_name
+      })
+      res.status(200).send(exercise)
+    } else {
+      res.status(204).send()
+    }
   } catch (err) {
     next(err)
   }

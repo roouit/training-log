@@ -46,11 +46,7 @@ Exercise.getById = (id) => {
       if (err) {
         reject(err)
       } else {
-        const exercise = new Exercise({
-          id: data[0].id,
-          exercise_name: data[0].exercise_name
-        })
-        resolve(exercise)
+        resolve(data)
       }
     })
   })

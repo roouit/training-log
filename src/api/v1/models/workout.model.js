@@ -42,15 +42,17 @@ Workout.getAll = (user_id, limit, offset) => {
           'SELECT * FROM workout WHERE user_id = ? ORDER BY date DESC LIMIT ? OFFSET ?',
           [user_id, limit, offset]
         )
-        const workout_ids = workouts.map(workout => {
-          return workout.id
-        })
-        const result = await connection.query(
-          'SELECT * FROM workout INNER JOIN workout_exercises ON workout_exercises.workout_id = workout.id WHERE workout.id IN (?)',
-          [workout_ids]
-        )
-        // eslint-disable-next-line no-undef
-        resolve(formatWorkouts(result))
+        if (workouts.length > 0) {
+          const workout_ids = workouts.map((workout) => {
+            return workout.id
+          })
+          const result = await connection.query(
+            'SELECT * FROM workout INNER JOIN workout_exercises ON workout_exercises.workout_id = workout.id WHERE workout.id IN (?)',
+            [workout_ids]
+          )
+          resolve(result)
+        }
+        resolve(workouts)
       } catch (err) {
         reject(err)
       } finally {

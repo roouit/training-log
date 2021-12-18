@@ -18,7 +18,12 @@ exports.getAllUserWorkouts = async (req, res, next) => {
   const offset = parseInt(req.query.offset)
   try {
     const response = await Workout.getAll(user_id, limit, offset)
-    res.send(response)
+    if (response[0]) {
+      const workouts = formatWorkouts(response)
+      res.status(200).send(workouts)
+    } else {
+      res.status(204).send()
+    }
   } catch (err) {
     next(err)
   }

@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 const Workout = require('../models/workout.model')
+const { formatWorkouts } = require('../utils/format-workouts')
 
 /**
  * A route handler function that tries to get all of the users workouts from database.
@@ -34,7 +35,12 @@ exports.getUserWorkoutById = async (req, res, next) => {
   const workout_id = req.params.workout_id
   try {
     const response = await Workout.getById(workout_id)
-    res.send(response)
+    if (response[0]) {
+      const workout = formatWorkouts(response)
+      res.status(200).send(workout)
+    } else {
+      res.status(204).send()
+    }
   } catch (err) {
     next(err)
   }

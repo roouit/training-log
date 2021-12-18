@@ -26,8 +26,19 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUserById = async (req, res, next) => {
   const user_id = req.params.user_id
   try {
-    const response = await User.getById(user_id)
-    res.send(response)
+    const [response] = await User.getById(user_id)
+    if (response) {
+      const user = new User({
+        id: response.id,
+        username: response.username,
+        first_name: response.first_name,
+        last_name: response.last_name,
+        email: response.email
+      })
+      res.status(200).send(user)
+    } else {
+      res.status(204).send()
+    }
   } catch (err) {
     next(err)
   }

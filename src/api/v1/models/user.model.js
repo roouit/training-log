@@ -56,14 +56,7 @@ User.getById = (id) => {
       if (err) {
         reject(err)
       } else {
-        const user = new User({
-          id: data[0].id,
-          username: data[0].username,
-          first_name: data[0].first_name,
-          last_name: data[0].last_name,
-          email: data[0].email
-        })
-        resolve(user)
+        resolve(data)
       }
     })
   })

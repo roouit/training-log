@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const db = require('../utils/db')
-const { getSetParams } = require('../utils/createUpdateQuery')
+const { getSetParams } = require('../utils/get-set-params')
 
 /**
  * Creates a new workout instance.

@@ -9,7 +9,17 @@ const Exercise = require('../models/exercise.model')
 exports.getAllExercises = async (req, res, next) => {
   try {
     const response = await Exercise.getAll()
-    res.send(response)
+    if (response.length > 0) {
+      const exercises = response.map((exercise) => {
+        return new Exercise({
+          id: exercise.id,
+          exercise_name: exercise.exercise_name
+        })
+      })
+      res.status(200).send(exercises)
+    } else {
+      res.status(204).send()
+    }
   } catch (err) {
     next(err)
   }

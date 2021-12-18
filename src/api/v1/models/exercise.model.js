@@ -23,13 +23,7 @@ Exercise.getAll = () => {
       if (err) {
         reject(err)
       } else {
-        const exercises = data.map((exercise) => {
-          return new Exercise({
-            id: exercise.id,
-            exercise_name: exercise.exercise_name
-          })
-        })
-        resolve(exercises)
+        resolve(data)
       }
     })
   })

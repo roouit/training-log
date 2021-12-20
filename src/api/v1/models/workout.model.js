@@ -220,10 +220,10 @@ Workout.updateById = (workout_id, workout) => {
           const rp = await Promise.all(rows)
           update_rps.workout_exercises_rp = rp
         }
-
         await connection.query('COMMIT')
         resolve(update_rps)
       } catch (err) {
+        console.log('rollback')
         await connection.query('ROLLBACK')
         reject(err)
       } finally {

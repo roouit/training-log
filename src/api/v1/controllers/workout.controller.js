@@ -133,7 +133,7 @@ exports.updateWorkoutById = async (req, res, next) => {
         messages.workout = 'update successful'
       }
     }
-    if (workout_exercises_rp.length > 0) {
+    if (workout_exercises_rp) {
       workout_exercises_rp.forEach(rp => {
         if (rp.affectedRows === 0) {
           statusCode = 404
@@ -148,6 +148,7 @@ exports.updateWorkoutById = async (req, res, next) => {
       message: messages
     })
   } catch (err) {
+    console.log(err)
     next(err)
   }
 }

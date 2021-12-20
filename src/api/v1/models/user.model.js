@@ -76,8 +76,7 @@ User.create = (user) => {
         if (err) {
           reject(err)
         } else {
-          user.id = data.insertId
-          resolve()
+          resolve(data)
         }
       }
     )
@@ -117,7 +116,7 @@ User.updateById = (id, user) => {
         if (err) {
           reject(err)
         } else {
-          resolve()
+          resolve(data)
         }
       }
     )

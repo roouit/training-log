@@ -88,7 +88,7 @@ exports.deleteExerciseById = async (req, res, next) => {
       })
     } else {
       res.status(404).send({
-        message: `no exercises with id = ${id}`
+        message: `no exercise with id = ${id}`
       })
     }
   } catch (err) {

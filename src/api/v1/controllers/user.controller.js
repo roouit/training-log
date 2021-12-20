@@ -59,7 +59,8 @@ exports.createNewUser = async (req, res, next) => {
     email: req.body.email
   })
   try {
-    await User.create(user)
+    const rp = await User.create(user)
+    user.id = rp.insertId
     res.location(`api/v1/users/${user.id}`)
     res.status(201).send(user)
   } catch (err) {
@@ -77,8 +78,16 @@ exports.createNewUser = async (req, res, next) => {
 exports.deleteUserById = async (req, res, next) => {
   const user_id = req.params.user_id
   try {
-    await User.deleteById(user_id)
-    res.status(204).send()
+    const rp = await User.deleteById(user_id)
+    if (rp.affectedRows > 0) {
+      res.status(200).send({
+        message: 'delete successful'
+      })
+    } else {
+      res.status(404).send({
+        message: `no user with id = ${user_id}`
+      })
+    }
   } catch (err) {
     next(err)
   }
@@ -101,8 +110,16 @@ exports.updateUserById = async (req, res, next) => {
     email: req.body.email
   })
   try {
-    await User.updateById(user_id, user)
-    res.status(200).send()
+    const rp = await User.updateById(user_id, user)
+    if (rp.affectedRows > 0) {
+      res.status(200).send({
+        message: 'delete successful'
+      })
+    } else {
+      res.status(404).send({
+        message: `no user with id = ${user_id}`
+      })
+    }
   } catch (err) {
     next(err)
   }

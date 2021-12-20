@@ -43,7 +43,9 @@ function Workout ({data}) {
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>{getWorkoutHeader(data.date)}</Typography>
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails sx={{
+            paddingTop: 0
+          }}>
             {exercises.map((exercise, index) => <Exercise key={`exercise${index}`} data={exercise}/>)}
           </AccordionDetails>
         </Accordion>

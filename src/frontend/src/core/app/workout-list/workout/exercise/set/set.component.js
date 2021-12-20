@@ -9,10 +9,12 @@ function Set({ data }) {
     let newDescription = `${data.repetitions} reps @ ${data.load} kg`
     setDescription(newDescription)
   }, [data])
-  
+
   return (
     <>
-      <ListItem>
+      <ListItem sx={{
+        padding: '0 10px'
+      }}>
         <ListItemText primary={description} />
       </ListItem>
     </>

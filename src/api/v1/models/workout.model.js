@@ -98,9 +98,11 @@ Workout.create = (workout) => {
       const connection = await db.connection()
       try {
         await connection.query('START TRANSACTION')
+
         const rp = await connection.query(
           'INSERT INTO workout (user_id, date) VALUES (?, ?)',
           [workout.user_id, workout.date])
+
         const rows = workout.entries.map(async entry => {
           return connection.query(
             'INSERT INTO workout_exercises (workout_id, exercise_id, set_number, repetitions, `load`) VALUES (?, ?, ?, ?, ?)',
@@ -114,12 +116,9 @@ Workout.create = (workout) => {
           )
         })
         const rp2 = await Promise.all(rows)
-        rp2.forEach((packet, index) => {
-          workout.entries[index].id = packet.insertId
-        })
+
         await connection.query('COMMIT')
-        workout.workout_id = rp.insertId
-        resolve()
+        resolve([rp, rp2])
       } catch (err) {
         await connection.query('ROLLBACK')
         reject(err)
@@ -146,9 +145,9 @@ Workout.deleteById = (workout_id) => {
           'DELETE FROM workout_exercises WHERE workout_id = ?',
           [workout_id]
         )
-        await connection.query('DELETE FROM workout WHERE id = ?', [workout_id])
+        const rp = await connection.query('DELETE FROM workout WHERE id = ?', [workout_id])
         await connection.query('COMMIT')
-        resolve()
+        resolve(rp)
       } catch (err) {
         await connection.query('ROLLBACK')
         reject(err)
@@ -188,17 +187,25 @@ Workout.deleteById = (workout_id) => {
 Workout.updateById = (workout_id, workout) => {
   return new Promise((resolve, reject) => {
     async function transaction () {
-      const { entries, ...other } = workout
+      const { entries, ...workoutData } = workout
+      const update_rps = {
+        workout_rp: null,
+        workout_exercises_rp: null
+      }
       const connection = await db.connection()
       try {
         await connection.query('START TRANSACTION')
-        if (Object.values(other).some((val) => val)) {
-          const [workoutSetParams, workoutPlaceholders] = getSetParams(other)
-          await connection.query(
+
+        if (Object.values(workoutData).some((val) => val)) {
+          const [workoutSetParams, workoutPlaceholders] =
+            getSetParams(workoutData)
+          const rp = await connection.query(
             `UPDATE workout SET ${workoutSetParams} WHERE id = ?`,
             [...workoutPlaceholders, workout_id]
           )
+          update_rps.workout_rp = rp
         }
+
         if (entries) {
           const rows = entries.map(async (entry) => {
             const id = entry.id
@@ -210,10 +217,12 @@ Workout.updateById = (workout_id, workout) => {
               [...entryPlaceholders, id]
             )
           })
-          await Promise.all(rows)
+          const rp = await Promise.all(rows)
+          update_rps.workout_exercises_rp = rp
         }
+
         await connection.query('COMMIT')
-        resolve()
+        resolve(update_rps)
       } catch (err) {
         await connection.query('ROLLBACK')
         reject(err)

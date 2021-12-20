@@ -60,8 +60,7 @@ Exercise.create = (exercise) => {
         if (err) {
           reject(err)
         } else {
-          exercise.id = data.insertId
-          resolve()
+          resolve(data)
         }
       }
     )
@@ -79,7 +78,7 @@ Exercise.deleteById = (id) => {
       if (err) {
         reject(err)
       } else {
-        resolve()
+        resolve(data)
       }
     })
   })
@@ -101,7 +100,7 @@ Exercise.updateById = (id, exercise) => {
         if (err) {
           reject(err)
         } else {
-          resolve()
+          resolve(data)
         }
       }
     )

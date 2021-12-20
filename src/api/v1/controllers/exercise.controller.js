@@ -62,7 +62,8 @@ exports.createNewExercise = async (req, res, next) => {
     exercise_name: req.body.exercise_name
   })
   try {
-    await Exercise.create(exercise)
+    const rp = await Exercise.create(exercise)
+    exercise.id = rp.insertId
     res.location(`api/v1/exercises/${exercise.id}`)
     res.status(201).send(exercise)
   } catch (err) {
@@ -80,8 +81,16 @@ exports.createNewExercise = async (req, res, next) => {
 exports.deleteExerciseById = async (req, res, next) => {
   const id = req.params.id
   try {
-    await Exercise.deleteById(id)
-    res.status(204).send()
+    const rp = await Exercise.deleteById(id)
+    if (rp.affectedRows > 0) {
+      res.status(200).send({
+        message: 'delete successful'
+      })
+    } else {
+      res.status(404).send({
+        message: `no exercises with id = ${id}`
+      })
+    }
   } catch (err) {
     next(err)
   }
@@ -101,8 +110,16 @@ exports.updateExerciseById = async (req, res, next) => {
     exercise_name: req.body.exercise_name
   })
   try {
-    await Exercise.updateById(id, exercise)
-    res.status(200).send()
+    const rp = await Exercise.updateById(id, exercise)
+    if (rp.affectedRows > 0) {
+      res.status(200).send({
+        message: 'update successful'
+      })
+    } else {
+      res.status(404).send({
+        message: `no exercises with id = ${id}`
+      })
+    }
   } catch (err) {
     next(err)
   }

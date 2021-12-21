@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Exercise from './exercise'
+import Exercise from '../exercise'
 import moment from 'moment'
 import Paper from '@mui/material/Paper'
 import Accordion from '@mui/material/Accordion'

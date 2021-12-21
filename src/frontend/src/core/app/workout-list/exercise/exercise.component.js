@@ -1,14 +1,14 @@
 import React from 'react'
-import Set from './set'
+import Set from '../set'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
-import { useExercise } from '../../../../../shared/hooks'
+import { useExercise } from '../../../../shared/hooks'
 
 function Exercise({ data }) {
   const { exerciseData, isLoading, isError } = useExercise(data[0].exercise_id)
   return (
     <>
-      {isLoading
+      {isLoading && !isError
         ? 'Lataa..'
         : <List dense={true}>
             <Typography variant='h6'>{exerciseData.exercise_name}</Typography>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import SelectExercise from './select-exercise/'
+import WorkoutFormExercise from './workout-form-exercise'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -66,17 +66,7 @@ function WorkoutForm() {
         }}
       >
         <FormHeader />
-
-        <SelectExercise />
-        <TextField
-          id='outlined-number'
-          label='Number'
-          type='number'
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-
+        <WorkoutFormExercise/>
         <FormFooter />
       </Box>
     </>

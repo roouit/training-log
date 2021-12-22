@@ -28,10 +28,20 @@ function WorkoutFormExercise({handleRemoveExercise}) {
     setExercise(newExercise)
   }
 
-  function handleRemoveSet () {
+  function handleRemoveSet (setNumber) {
+    let indexToDel = null
     const newExercise = [...exercise]
+    newExercise.forEach((exer, index) => {
+      if (exer.set_number === setNumber) {
+        indexToDel = index
+      }
+    })
+    newExercise.splice(indexToDel, 1)
+    for (let i = indexToDel; i < newExercise.length; i++) {
+      newExercise[i].set_number -= 1
+    }
     setNextSetNumber(nextSetNumber - 1)
-    setExercise(newExercise.slice(0, -1))
+    setExercise(newExercise)
   }
 
   return (
@@ -52,7 +62,7 @@ function WorkoutFormExercise({handleRemoveExercise}) {
       </Stack>
       <Stack spacing={0}>
         {exercise.map((set) => (
-          <WorkoutFormSet handleRemoveSet={handleRemoveSet} />
+          <WorkoutFormSet key={set.set_number} setNumber={set.set_number} setExercise={setExercise} handleRemoveSet={handleRemoveSet} />
         ))}
       </Stack>
     </>

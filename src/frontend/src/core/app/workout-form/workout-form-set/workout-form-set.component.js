@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 
-function WorkoutFormSet ({ handleRemoveSet }) {
+function WorkoutFormSet ({ setNumber, setExercise, handleRemoveSet }) {
   const [reps, setReps] = useState(0)
   const [load, setLoad] = useState(0)
 
@@ -42,7 +42,7 @@ function WorkoutFormSet ({ handleRemoveSet }) {
           inputProps={{ style: { fontSize: '0.8em' } }}
           onChange={(e) => setLoad(e.target.value)}
         ></TextField>
-        <IconButton onClick={handleRemoveSet}>
+        <IconButton onClick={() => handleRemoveSet(setNumber)}>
           <DeleteIcon />
         </IconButton>
       </Stack>

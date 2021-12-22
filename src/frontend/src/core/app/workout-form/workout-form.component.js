@@ -67,7 +67,6 @@ function WorkoutForm() {
       entries: []
     })
   }, [])
-  console.log(exerNumber)
 
   function handleAddExercise () {
     setExerNumber(exerNumber + 1)

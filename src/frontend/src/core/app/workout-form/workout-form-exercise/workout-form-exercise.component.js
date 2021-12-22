@@ -28,18 +28,32 @@ function WorkoutFormExercise({handleRemoveExercise}) {
     setExercise(newExercise)
   }
 
+  function handleRemoveSet () {
+    const newExercise = [...exercise]
+    setNextSetNumber(nextSetNumber - 1)
+    setExercise(newExercise.slice(0, -1))
+  }
+
   return (
     <>
-      <Stack spacing={1} direction='row' justifyContent='start' sx={{marginBottom: '10px'}}>
+      <Stack
+        spacing={1}
+        direction='row'
+        justifyContent='start'
+        sx={{ marginBottom: '10px' }}
+      >
         <SelectExercise handleSetExercise={handleSetExercise} />
-        <Button variant='outlined' onClick={handleAddSet}>Add set</Button>
+        <Button variant='outlined' onClick={handleAddSet}>
+          Add set
+        </Button>
         <Button variant='outlined' color='error' onClick={handleRemoveExercise}>
           Remove exercise
         </Button>
       </Stack>
       <Stack spacing={0}>
-        <WorkoutFormSet />
-        <WorkoutFormSet />
+        {exercise.map((set) => (
+          <WorkoutFormSet handleRemoveSet={handleRemoveSet} />
+        ))}
       </Stack>
     </>
   )

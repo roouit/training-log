@@ -5,12 +5,14 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 
-function SelectExercise() {
+function SelectExercise({handleSetExercise}) {
   const [exercise, setExercise] = useState('')
   const { exerciseData, isLoading, isError } = useExercise()
 
-  const handleChange = (event) => {
-    setExercise(event.target.value)
+  const handleChange = (e) => {
+    const newExer = exerciseData.find(exer => exer.exercise_name === e.target.value)
+    setExercise(e.target.value)
+    handleSetExercise(newExer)
   }
 
   return (
@@ -27,7 +29,10 @@ function SelectExercise() {
           {isLoading && !isError ? '' : (
             exerciseData.map(exercise => {
               return (
-                <MenuItem key={exercise.exercise_name} value={exercise.exercise_name}>
+                <MenuItem
+                  key={exercise.exercise_name}
+                  value={exercise.exercise_name}
+                >
                   {exercise.exercise_name}
                 </MenuItem>
               )

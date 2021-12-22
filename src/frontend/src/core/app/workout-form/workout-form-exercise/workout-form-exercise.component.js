@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SelectExercise from '../select-exercise/'
 import WorkoutFormSet from '../workout-form-set/'
 import Button from '@mui/material/Button'
@@ -11,6 +11,16 @@ function WorkoutFormExercise({handleRemoveExercise}) {
 
   console.log(exercise)
   console.log(exerciseId, nextSetNumber)
+
+  useEffect(() => {
+    const newExercise = exercise.map(set => {
+      return {
+        ...set,
+        exercise_id: exerciseId
+      }
+    })
+    setExercise(newExercise)
+  }, [exerciseId])
 
   function handleSetExercise(newExercise) {
     setExerciseId(newExercise.id)

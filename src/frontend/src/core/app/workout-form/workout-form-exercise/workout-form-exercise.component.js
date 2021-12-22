@@ -54,6 +54,13 @@ function WorkoutFormExercise({handleRemoveExercise}) {
     setExercise(newExercise)
   }
 
+  function handleUpdateLoadAndReps (setNumber, reps, load) {
+    const newExercise = [...exercise]
+    newExercise[setNumber - 1].repetitions = reps ? reps : 0
+    newExercise[setNumber - 1].load = load ? load : 0
+    setExercise(newExercise)
+  }
+
   return (
     <>
       <Stack
@@ -72,7 +79,12 @@ function WorkoutFormExercise({handleRemoveExercise}) {
       </Stack>
       <Stack spacing={0}>
         {exercise.map((set) => (
-          <WorkoutFormSet key={set.set_number} setNumber={set.set_number} setExercise={setExercise} handleRemoveSet={handleRemoveSet} />
+          <WorkoutFormSet
+            key={set.set_number}
+            setNumber={set.set_number}
+            handleUpdateLoadAndReps={handleUpdateLoadAndReps}
+            handleRemoveSet={handleRemoveSet}
+          />
         ))}
       </Stack>
     </>

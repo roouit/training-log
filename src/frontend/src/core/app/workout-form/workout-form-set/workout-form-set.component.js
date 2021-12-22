@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 
-function WorkoutFormSet ({ setNumber, setExercise, handleRemoveSet }) {
+function WorkoutFormSet ({ setNumber, handleUpdateLoadAndReps, handleRemoveSet }) {
   const [reps, setReps] = useState(0)
   const [load, setLoad] = useState(0)
+
+  useEffect(() => {
+    handleUpdateLoadAndReps(setNumber, reps, load)
+  }, [reps, load])
 
   return (
     <>
@@ -28,7 +32,7 @@ function WorkoutFormSet ({ setNumber, setExercise, handleRemoveSet }) {
           label='Repetitions'
           size='small'
           inputProps={{ style: { fontSize: '0.8em' } }}
-          onChange={(e) => setReps(e.target.value)}
+          onChange={(e) => setReps(parseInt(e.target.value))}
         ></TextField>
         <TextField
           focused
@@ -40,7 +44,7 @@ function WorkoutFormSet ({ setNumber, setExercise, handleRemoveSet }) {
           label='Load'
           size='small'
           inputProps={{ style: { fontSize: '0.8em' } }}
-          onChange={(e) => setLoad(e.target.value)}
+          onChange={(e) => setLoad(parseInt(e.target.value))}
         ></TextField>
         <IconButton onClick={() => handleRemoveSet(setNumber)}>
           <DeleteIcon />

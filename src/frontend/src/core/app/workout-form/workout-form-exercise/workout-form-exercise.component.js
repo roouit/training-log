@@ -5,62 +5,63 @@ import WorkoutFormSet from '../workout-form-set/'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-function WorkoutFormExercise({handleRemoveExercise}) {
-  const [exercise, setExercise] = useState([])
+function WorkoutFormExercise({exerciseUuid, handleRemoveExercise, updateWorkout}) {
+  const [sets, setSets] = useState([])
   const [exerciseId, setExerciseId] = useState(null)
   const [nextSetNumber, setNextSetNumber] = useState(1)
 
-  console.log(exercise)
-  console.log(exerciseId, nextSetNumber)
-
   useEffect(() => {
-    const newExercise = exercise.map(set => {
+    const newSets = sets.map((set) => {
       return {
         ...set,
         exercise_id: exerciseId
       }
     })
-    setExercise(newExercise)
+    setSets(newSets)
   }, [exerciseId])
+
+  useEffect(() => {
+    updateWorkout(exerciseUuid, sets)
+  }, [sets])
 
   function handleSetExercise(newExercise) {
     setExerciseId(newExercise.id)
   }
 
   function handleAddSet () {
-    const newExercise = [...exercise]
-    newExercise.push({
-      entry_id: uuidv4(),
+    const newSets = [...sets]
+    newSets.push({
+      entry_uuid: uuidv4(),
       exercise_id: exerciseId,
       set_number: nextSetNumber,
       repetitions: null,
       load: null
     })
     setNextSetNumber(nextSetNumber + 1)
-    setExercise(newExercise)
+    setSets(newSets)
   }
 
   function handleRemoveSet (setNumber) {
     let indexToDel = null
-    const newExercise = [...exercise]
-    newExercise.forEach((exer, index) => {
+    const newSets = [...sets]
+    newSets.forEach((exer, index) => {
       if (exer.set_number === setNumber) {
         indexToDel = index
       }
     })
-    newExercise.splice(indexToDel, 1)
-    for (let i = indexToDel; i < newExercise.length; i++) {
-      newExercise[i].set_number -= 1
+    newSets.splice(indexToDel, 1)
+    for (let i = indexToDel; i < newSets.length; i++) {
+      newSets[i].set_number -= 1
     }
     setNextSetNumber(nextSetNumber - 1)
-    setExercise(newExercise)
+    setSets(newSets)
   }
 
   function handleUpdateLoadAndReps (setNumber, reps, load) {
-    const newExercise = [...exercise]
-    newExercise[setNumber - 1].repetitions = reps ? reps : 0
-    newExercise[setNumber - 1].load = load ? load : 0
-    setExercise(newExercise)
+    const newSets = [...sets]
+    newSets[setNumber - 1].repetitions = reps ? reps : 0
+    newSets[setNumber - 1].load = load ? load : 0
+    setSets(newSets)
   }
 
   return (
@@ -75,14 +76,18 @@ function WorkoutFormExercise({handleRemoveExercise}) {
         <Button variant='outlined' onClick={handleAddSet}>
           Add set
         </Button>
-        <Button variant='outlined' color='error' onClick={handleRemoveExercise}>
+        <Button
+          variant='outlined'
+          color='error'
+          onClick={() => handleRemoveExercise(exerciseUuid)}
+        >
           Remove exercise
         </Button>
       </Stack>
       <Stack spacing={0}>
-        {exercise.map((set) => (
+        {sets.map((set) => (
           <WorkoutFormSet
-            key={set.entry_id}
+            key={set.entry_uuid}
             setNumber={set.set_number}
             handleUpdateLoadAndReps={handleUpdateLoadAndReps}
             handleRemoveSet={handleRemoveSet}

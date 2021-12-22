@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
 import WorkoutFormExercise from './workout-form-exercise'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -9,8 +11,11 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import Typography from '@mui/material/Typography'
 
-function FormHeader({handleAddExercise}) {
-  const [value, setValue] = useState(null)
+function FormHeader({date, setDate, handleAddExercise}) {
+  
+  function handleDateChange (newDate) {
+    setDate(moment(newDate).format('YYYY-MM-DD HH:mm'))
+  }
 
   return (
     <div className='workout-form-header' style={{ marginBottom: '10px' }}>
@@ -23,10 +28,8 @@ function FormHeader({handleAddExercise}) {
             inputFormat='dd.MM.yyyy HH:mm'
             renderInput={(props) => <TextField size='small' {...props} />}
             label='Date and time of workout'
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue)
-            }}
+            value={date}
+            onChange={handleDateChange}
           />
         </LocalizationProvider>
         <Button variant='outlined' onClick={handleAddExercise}>
@@ -57,23 +60,61 @@ function FormFooter() {
 }
 
 function WorkoutForm() {
-  const [exerNumber, setExerNumber] = useState(0)
+  const [exercises, setExercises] = useState([])
+  const [date, setDate] = useState(null)
   const [workout, setWorkout] = useState({})
+
+  console.log(workout)
 
   useEffect(() => {
     setWorkout({
       user_id: 2,
-      date: "2021-10-20T11:59:00",
+      date: date,
       entries: []
     })
   }, [])
 
+  useEffect(() => {
+    if (date) {
+      const newWorkout = {
+        ...workout,
+        date: date
+      }
+      setWorkout(newWorkout)
+    }
+  }, [date])
+
   function handleAddExercise () {
-    setExerNumber(exerNumber + 1)
+    const newExercises = [...exercises]
+    newExercises.push({
+      exercise_uuid: uuidv4(),
+      sets: []
+    })
+    setExercises(newExercises)
   }
 
-  function handleRemoveExercise() {
-    setExerNumber(exerNumber - 1)
+  function handleRemoveExercise(exerciseUuid) {
+    const newExercises = [...exercises]
+    let indexToDel = null
+    newExercises.forEach((exer, index) => {
+      if (exer.exercise_uuid === exerciseUuid) {
+        indexToDel = index
+      }
+    })
+    newExercises.splice(indexToDel, 1)
+    setExercises(newExercises)
+  }
+
+  function updateWorkout (exerciseUuid, newSets) {
+    const newExercises = [...exercises]
+    let indexToUpdate = null
+    newExercises.forEach((exer, index) => {
+      if (exer.exercise_uuid === exerciseUuid) {
+        indexToUpdate = index
+      }
+    })
+    newExercises[indexToUpdate].sets = newSets
+    setExercises(newExercises)
   }
 
   return (
@@ -87,8 +128,18 @@ function WorkoutForm() {
           borderRadius: '5px'
         }}
       >
-        <FormHeader handleAddExercise={handleAddExercise} />
-        <WorkoutFormExercise handleRemoveExercise={handleRemoveExercise} />
+        <FormHeader date={date} setDate={setDate} handleAddExercise={handleAddExercise} />
+        {exercises.map(exer => {
+          return (
+            <WorkoutFormExercise
+              key={exer.exercise_uuid}
+              exerciseUuid={exer.exercise_uuid}
+              handleRemoveExercise={handleRemoveExercise}
+              updateWorkout={updateWorkout}
+            />
+          )
+        })}
+        
         <FormFooter />
       </Box>
     </>

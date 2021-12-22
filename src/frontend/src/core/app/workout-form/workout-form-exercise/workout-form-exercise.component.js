@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import SelectExercise from '../select-exercise/'
 import WorkoutFormSet from '../workout-form-set/'
 import Button from '@mui/material/Button'
@@ -29,6 +30,7 @@ function WorkoutFormExercise({handleRemoveExercise}) {
   function handleAddSet () {
     const newExercise = [...exercise]
     newExercise.push({
+      entry_id: uuidv4(),
       exercise_id: exerciseId,
       set_number: nextSetNumber,
       repetitions: null,
@@ -80,7 +82,7 @@ function WorkoutFormExercise({handleRemoveExercise}) {
       <Stack spacing={0}>
         {exercise.map((set) => (
           <WorkoutFormSet
-            key={set.set_number}
+            key={set.entry_id}
             setNumber={set.set_number}
             handleUpdateLoadAndReps={handleUpdateLoadAndReps}
             handleRemoveSet={handleRemoveSet}

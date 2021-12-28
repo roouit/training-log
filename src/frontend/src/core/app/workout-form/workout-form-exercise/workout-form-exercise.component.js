@@ -5,7 +5,11 @@ import WorkoutFormSet from '../workout-form-set/'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-function WorkoutFormExercise({exerciseUuid, handleRemoveExercise, updateWorkout}) {
+function WorkoutFormExercise({
+  exerciseUuid,
+  handleRemoveExercise,
+  updateExercise
+}) {
   const [sets, setSets] = useState([])
   const [exerciseId, setExerciseId] = useState(null)
   const [nextSetNumber, setNextSetNumber] = useState(1)
@@ -21,14 +25,14 @@ function WorkoutFormExercise({exerciseUuid, handleRemoveExercise, updateWorkout}
   }, [exerciseId])
 
   useEffect(() => {
-    updateWorkout(exerciseUuid, sets)
+    updateExercise(exerciseUuid, sets)
   }, [sets])
 
   function handleSetExercise(newExercise) {
     setExerciseId(newExercise.id)
   }
 
-  function handleAddSet () {
+  function handleAddSet() {
     const newSets = [...sets]
     newSets.push({
       entry_uuid: uuidv4(),
@@ -41,7 +45,7 @@ function WorkoutFormExercise({exerciseUuid, handleRemoveExercise, updateWorkout}
     setSets(newSets)
   }
 
-  function handleRemoveSet (setNumber) {
+  function handleRemoveSet(setNumber) {
     let indexToDel = null
     const newSets = [...sets]
     newSets.forEach((exer, index) => {
@@ -57,7 +61,7 @@ function WorkoutFormExercise({exerciseUuid, handleRemoveExercise, updateWorkout}
     setSets(newSets)
   }
 
-  function handleUpdateLoadAndReps (setNumber, reps, load) {
+  function handleUpdateLoadAndReps(setNumber, reps, load) {
     const newSets = [...sets]
     newSets[setNumber - 1].repetitions = reps ? reps : 0
     newSets[setNumber - 1].load = load ? load : 0

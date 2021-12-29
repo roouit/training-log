@@ -1,0 +1,57 @@
+GET http://localhost:8080/api/v1/users/2/workouts?offset=0&limit=20
+###
+GET http://localhost:8080/api/v1/exercises
+###
+GET http://localhost:8080/api/v1/users/1/workouts/1
+###
+GET http://localhost:8080/api/v1/exercises/1
+###
+DELETE http://localhost:8080/api/v1/users/28
+###
+DELETE http://localhost:8080/api/v1/users/1/workouts/36
+###
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+    "username": "juserrefdsi",
+    "first_name": "juba",
+    "last_name": "jermu",
+    "email": "jjegfrdm"
+}
+###
+PUT http://localhost:8080/api/v1/exercises/5
+Content-Type: application/json
+
+{
+  "exercise_name": "Bench press"
+}
+###
+POST http://localhost:8080/api/v1/users/1/workouts/
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "date": "2021-10-20T11:59:00",
+    "entries": [
+      {
+        "exercise_id": 3,
+        "set_number": 1,
+        "repetitions": 7,
+        "load": 5
+      },
+      {
+        "exercise_id": 3,
+        "set_number": 2,
+        "repetitions": 7,
+        "load": 5
+      }
+    ]
+}
+###
+PUT http://localhost:8080/api/v1/users/1/workouts/29
+Content-Type: application/json
+
+{
+  "date": "2021-10-08 08:00:00"
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Exercise from '../exercise'
 import moment from 'moment'
 import Paper from '@mui/material/Paper'
+import Button from '@mui/material/Button'
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
@@ -15,7 +16,7 @@ function getWorkoutHeader (datetime) {
   return header
 }
 
-function Workout ({data}) {
+function Workout({ data, handleRemoveWorkout }) {
   const [exercises, setExercises] = useState([])
 
   useEffect(() => {
@@ -33,7 +34,6 @@ function Workout ({data}) {
         newExercises.push(temp)
       }
     })
-    console.log(newExercises)
     setExercises(newExercises)
   }, [data])
 
@@ -44,10 +44,20 @@ function Workout ({data}) {
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>{getWorkoutHeader(data.date)}</Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{
-            paddingTop: 0
-          }}>
-            {exercises.map((exercise, index) => <Exercise key={`exercise${index}`} exerciseData={exercise}/>)}
+          <AccordionDetails
+            sx={{
+              paddingTop: 0
+            }}
+          >
+            {exercises.map((exercise, index) => (
+              <Exercise key={`exercise${index}`} exerciseData={exercise} />
+            ))}
+            <Button
+              color='error'
+              onClick={() => handleRemoveWorkout(data.workout_id)}
+            >
+              Remove workout
+            </Button>
           </AccordionDetails>
         </Accordion>
       </Paper>

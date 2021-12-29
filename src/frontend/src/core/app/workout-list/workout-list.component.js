@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Stack from '@mui/material/Stack'
 import Workout from './workout'
-import { getWorkouts } from '../../../shared/api'
+import { getWorkouts, deleteWorkoutById } from '../../../shared/api'
 
 function WorkoutList () {
   const [loading, setLoading] = useState(true)
@@ -12,7 +12,7 @@ function WorkoutList () {
     async function call() {
       try {
         const data = await getWorkouts()
-        setWorkouts(data) 
+        setWorkouts(data)
       } catch (error) {
         setError(error)
       } finally {
@@ -22,6 +22,21 @@ function WorkoutList () {
     call()
   }, [])
 
+  function handleRemoveWorkout (workoutId) {
+    const newWorkouts = [...workouts]
+    let indexToDel = null
+    workouts.forEach((workout, index) => {
+      if (workout.workout_id === workoutId) {
+        indexToDel = index
+      }
+    })
+    if (indexToDel !== null) {
+      newWorkouts.splice(indexToDel, 1)
+    }
+    setWorkouts(newWorkouts)
+    deleteWorkoutById(workoutId)
+  }
+
   return (
     <>
       <Stack spacing={1}>
@@ -29,7 +44,11 @@ function WorkoutList () {
         {loading
           ? 'Lataa'
           : workouts.map((workout) => (
-              <Workout key={`workout${workout.workout_id}`} data={workout} />
+              <Workout
+                key={`workout${workout.workout_id}`}
+                data={workout}
+                handleRemoveWorkout={handleRemoveWorkout}
+              />
             ))}
       </Stack>
     </>

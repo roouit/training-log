@@ -18,3 +18,10 @@ export function saveWorkout (workout) {
     data: workout
   }).then((response) => console.log(response))
 }
+
+export function deleteWorkoutById (workoutId) {
+  return axios({
+    url: `http://localhost:8080/api/v1/users/2/workouts/${workoutId}`,
+    method: 'delete'
+  }).then((response) => console.log(response))
+}

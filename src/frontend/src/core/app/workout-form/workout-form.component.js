@@ -114,7 +114,14 @@ function WorkoutForm() {
         workoutToSave.entries.push(set)
       })
     })
-    saveWorkout(workoutToSave) 
+    saveWorkout(workoutToSave)
+    setExercises([])
+    setDate(null)
+    setWorkout({
+      user_id: 2,
+      date: date,
+      entries: []
+    })
   }
 
   function updateExercise(exerciseUuid, newSets) {

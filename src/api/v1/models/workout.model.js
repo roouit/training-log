@@ -47,7 +47,7 @@ Workout.getAll = (user_id, limit, offset) => {
             return workout.id
           })
           const result = await connection.query(
-            'SELECT * FROM workout INNER JOIN workout_exercises ON workout_exercises.workout_id = workout.id WHERE workout.id IN (?)',
+            'SELECT * FROM workout INNER JOIN workout_exercises ON workout_exercises.workout_id = workout.id WHERE workout.id IN (?) ORDER BY date DESC, exercise_id, set_number',
             [workout_ids]
           )
           resolve(result)

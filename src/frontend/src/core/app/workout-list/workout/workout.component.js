@@ -17,8 +17,9 @@ function getWorkoutHeader (datetime) {
   return header
 }
 
-function Workout({ data, handleRemoveWorkout }) {
+function Workout({ data, handleRemoveWorkout, handleUpdateWorkout }) {
   const [exercises, setExercises] = useState([])
+  const [editView, setEditView] = useState(false)
 
   useEffect(() => {
     const newExercises = []
@@ -41,26 +42,44 @@ function Workout({ data, handleRemoveWorkout }) {
   return (
     <>
       <Paper>
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>{getWorkoutHeader(data.date)}</Typography>
-          </AccordionSummary>
-          <AccordionDetails
-            sx={{
-              paddingTop: 0
-            }}
-          >
-            {exercises.map((exercise, index) => (
-              <Exercise key={`exercise${index}`} exerciseData={exercise} />
-            ))}
-            <Button
-              color='error'
-              onClick={() => handleRemoveWorkout(data.workout_id)}
+        {!editView ? (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>{getWorkoutHeader(data.date)}</Typography>
+            </AccordionSummary>
+            <AccordionDetails
+              sx={{
+                paddingTop: 0
+              }}
             >
-              Remove workout
-            </Button>
-          </AccordionDetails>
-        </Accordion>
+              {exercises.map((exercise, index) => (
+                <Exercise key={`exercise${index}`} exerciseData={exercise} />
+              ))}
+              <Button
+                color='error'
+                onClick={() => handleRemoveWorkout(data.workout_id)}
+              >
+                Remove workout
+              </Button>
+              <Button onClick={() => setEditView(true)}>Update workout</Button>
+            </AccordionDetails>
+          </Accordion>
+        ) : (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>Edit workout</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Button
+                color='success'
+                onClick={() => handleUpdateWorkout(data.workout_id)}
+              >
+                Save workout
+              </Button>
+              <Button onClick={() => setEditView(false)}>Cancel</Button>
+            </AccordionDetails>
+          </Accordion>
+        )}
       </Paper>
     </>
   )

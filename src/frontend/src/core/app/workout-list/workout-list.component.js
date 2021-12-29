@@ -37,6 +37,19 @@ function WorkoutList () {
     deleteWorkoutById(workoutId)
   }
 
+  function handleUpdateWorkout (workoutId) {
+    const updatedWorkout = {
+      workout_id: undefined,
+      user_id: undefined,
+      date: undefined,
+      entries: undefined
+    }
+    console.log(updatedWorkout)
+    updatedWorkout.date = ''
+    console.log(updatedWorkout)
+    console.log(workouts)
+  }
+
   return (
     <>
       <Stack spacing={1}>
@@ -48,6 +61,7 @@ function WorkoutList () {
                 key={`workout${workout.workout_id}`}
                 data={workout}
                 handleRemoveWorkout={handleRemoveWorkout}
+                handleUpdateWorkout={handleUpdateWorkout}
               />
             ))}
       </Stack>

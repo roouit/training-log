@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
-import axios from 'axios'
+import { saveWorkout } from '../../../shared/api'
+
 import WorkoutFormExercise from './workout-form-exercise'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -66,12 +67,9 @@ function WorkoutForm() {
   const [date, setDate] = useState(null)
   const [workout, setWorkout] = useState({})
 
-  // console.log(workout)
-  // console.log(exercises)
-
   useEffect(() => {
     setWorkout({
-      user_id: 1,
+      user_id: 2,
       date: date,
       entries: []
     })
@@ -116,8 +114,7 @@ function WorkoutForm() {
         workoutToSave.entries.push(set)
       })
     })
-    axios.post('http://localhost:8080/api/v1/users/2/workouts/', workoutToSave)
-      .then(res => console.log(res.data))
+    saveWorkout(workoutToSave) 
   }
 
   function updateExercise(exerciseUuid, newSets) {

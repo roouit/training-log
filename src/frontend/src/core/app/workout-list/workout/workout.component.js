@@ -33,6 +33,7 @@ function Workout ({data}) {
         newExercises.push(temp)
       }
     })
+    console.log(newExercises)
     setExercises(newExercises)
   }, [data])
 
@@ -46,7 +47,7 @@ function Workout ({data}) {
           <AccordionDetails sx={{
             paddingTop: 0
           }}>
-            {exercises.map((exercise, index) => <Exercise key={`exercise${index}`} data={exercise}/>)}
+            {exercises.map((exercise, index) => <Exercise key={`exercise${index}`} exerciseData={exercise}/>)}
           </AccordionDetails>
         </Accordion>
       </Paper>

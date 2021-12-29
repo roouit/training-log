@@ -1,17 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Stack from '@mui/material/Stack'
 import Workout from './workout'
-import { useWorkout } from '../../../shared/hooks'
+import { getWorkouts } from '../../../shared/api'
 
 function WorkoutList () {
-  const { workoutData, isLoading, isError } = useWorkout()
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [workouts, setWorkouts] = useState([])
+
+  useEffect(() => {
+    async function call() {
+      try {
+        const data = await getWorkouts()
+        setWorkouts(data) 
+      } catch (error) {
+        setError(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    call()
+  }, [])
+
   return (
     <>
       <Stack spacing={1}>
-        {isError ? <div>virhe</div> : ''}
-        {isLoading
+        {error ? <div>virhe</div> : ''}
+        {loading
           ? 'Lataa'
-          : workoutData.map((workout) => (
+          : workouts.map((workout) => (
               <Workout key={`workout${workout.workout_id}`} data={workout} />
             ))}
       </Stack>

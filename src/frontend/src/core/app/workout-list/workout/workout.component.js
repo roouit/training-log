@@ -11,8 +11,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 function getWorkoutHeader (datetime) {
   const date = moment(datetime).format('DD.MM.Y')
+  const day = moment(datetime).format('dddd')
   const time = moment(datetime).format('H:mm')
-  const header = `${date}, kello ${time}`
+  const header = `${day} ${date} @ ${time}`
   return header
 }
 

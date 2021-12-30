@@ -1,10 +1,9 @@
 import React from 'react'
+import UserSettings from '../../core/app/settings/'
 
 function SettingsPage() {
   return (
-    <>
-      <div>Settings!</div>
-    </>
+    <UserSettings/>
   )
 }
 

@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import './navigation.styles.css'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -11,12 +13,20 @@ function Navigation () {
         <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           TRAINING LOG
         </Typography>
-        <Button variant='outlined' color='inherit' sx={{ marginRight: '10px' }}>
-          Workouts
-        </Button>
-        <Button variant='outlined' color='inherit'>
-          Settings
-        </Button>
+        <Link to='/'>
+          <Button
+            variant='outlined'
+            color='inherit'
+            sx={{ marginRight: '10px' }}
+          >
+            Workouts
+          </Button>
+        </Link>
+        <Link to='/settings'>
+          <Button variant='outlined' color='inherit'>
+            Settings
+          </Button>
+        </Link>
       </Toolbar>
     </AppBar>
   )

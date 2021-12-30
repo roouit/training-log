@@ -7,3 +7,16 @@ export function getUserById (id) {
     }
   )
 }
+
+export function updateUserById (id, userData) {
+  return axios(
+    {
+      url: `http://localhost:8080/api/v1/users/${id}`,
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: userData
+    }
+  ).then((response) => console.log(response))
+}

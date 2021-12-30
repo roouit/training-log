@@ -24,7 +24,7 @@ function Navigation () {
         </Link>
         <Link to='/settings'>
           <Button variant='outlined' color='inherit'>
-            Settings
+            User data
           </Button>
         </Link>
       </Toolbar>

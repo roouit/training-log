@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getUserById } from '../../../shared/api/user'
+import { getUserById, updateUserById } from '../../../shared/api'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -12,8 +12,7 @@ function UserSettings () {
   useEffect(() => {
     async function call() {
       try {
-        const response = await getUserById(1)
-        console.log(response)
+        const response = await getUserById(2)
         setUser(response)
       } catch (error) {
         setError(error)
@@ -24,11 +23,23 @@ function UserSettings () {
     call()
   }, [])
 
+  function handleChange (e) {
+    const newUser = {...user}
+    newUser[e.target.id] = e.target.value
+    setUser(newUser)
+  }
+
+  function handleSave () {
+    const newUser = {...user}
+    delete newUser.id
+    updateUserById(user.id, newUser)
+  }
+
   if (loading) {
     return error ? (
       <div>An error occured while retrieving user data</div>
     ) : (
-      <div>Loading...</div>
+      <div>Loading your data...</div>
     )
   }
   
@@ -41,32 +52,38 @@ function UserSettings () {
           spacing={1}
           direction='column'
           justifyContent='start'
-          // alignItems='center'
-          sx={{}}
         >
           <TextField
             variant='standard'
             type='text'
             label='User name'
             defaultValue={user.username}
+            id='username'
+            onChange={handleChange}
           ></TextField>
           <TextField
             variant='standard'
             type='text'
             label='Email'
             defaultValue={user.email}
+            id='email'
+            onChange={handleChange}
           ></TextField>
           <TextField
             variant='standard'
             type='text'
             label='First name'
             defaultValue={user.first_name}
+            id='first_name'
+            onChange={handleChange}
           ></TextField>
           <TextField
             variant='standard'
             type='text'
             label='Last name'
             defaultValue={user.last_name}
+            id='last_name'
+            onChange={handleChange}
           ></TextField>
           <Button
             variant='contained'
@@ -75,8 +92,9 @@ function UserSettings () {
               maxWidth: '200px',
               alignSelf: 'center'
             }}
+            onClick={handleSave}
           >
-            Save settings
+            Save data
           </Button>
         </Stack>
       )}

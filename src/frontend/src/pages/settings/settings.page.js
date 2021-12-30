@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 function SettingsPage() {
   return (
     <>
-      <Typography variant='h4' textAlign='center' gutterBottom={true}>Your user settings</Typography>
+      <Typography variant='h4' textAlign='center' gutterBottom={true}>User data</Typography>
       <UserSettings />
     </>
   )

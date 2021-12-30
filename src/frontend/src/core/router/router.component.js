@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import UserPage from '../../routes/user/'
-import SettingsPage from '../../routes/settings/'
+import UserPage from '../../pages/user/'
+import SettingsPage from '../../pages/settings/'
 
 function Router () {
   return (

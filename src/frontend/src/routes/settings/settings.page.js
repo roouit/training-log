@@ -1,9 +1,13 @@
 import React from 'react'
 import UserSettings from '../../core/app/settings/'
+import Typography from '@mui/material/Typography'
 
 function SettingsPage() {
   return (
-    <UserSettings/>
+    <>
+      <Typography variant='h4' textAlign='center' gutterBottom={true}>Your user settings</Typography>
+      <UserSettings />
+    </>
   )
 }
 

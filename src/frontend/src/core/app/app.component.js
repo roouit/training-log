@@ -1,24 +1,16 @@
 import React from 'react'
+import Navigation from './navigation/navigation.component'
 import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
 import Router from '../router/'
 
 function App() {
   return (
     <>
       <CssBaseline />
+      <Navigation/>
       <Container maxWidth='md'>
-        <Typography
-          variant='h3'
-          align='center'
-          gutterBottom={true}
-          sx={{
-            paddingTop: '16px'
-          }}
-        >Training log
-        </Typography>
-        <Router/>
+        <Router />
       </Container>
     </>
   )

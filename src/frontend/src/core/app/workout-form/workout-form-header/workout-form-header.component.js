@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DateTimePicker from '@mui/lab/DateTimePicker'
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
@@ -15,9 +14,6 @@ function WorkoutFormHeader({ date, setDate, handleAddExercise }) {
 
   return (
     <div className='workout-form-header' style={{ marginBottom: '10px' }}>
-      <Typography variant='h6' align='center' gutterBottom={true}>
-        New workout
-      </Typography>
       <Stack spacing={2} direction='row' justifyContent='center'>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DateTimePicker

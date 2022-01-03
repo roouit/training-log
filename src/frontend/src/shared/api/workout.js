@@ -1,16 +1,16 @@
 import axios from 'axios'
 
-export function getWorkouts () {
+export function getWorkouts (offset = 0, limit = 10) {
   return axios(
-    'http://localhost:8080/api/v1/users/2/workouts?offset=0&limit=20'
+    `http://localhost:8080/api/v1/users/1/workouts?offset=${offset}&limit=${limit}`
   ).then((response) => {
-    return response.data ? response.data : [] 
+    return response.data ? response.data : []
   })
 }
 
 export function saveWorkout (workout) {
   return axios({
-    url: 'http://localhost:8080/api/v1/users/2/workouts/',
+    url: 'http://localhost:8080/api/v1/users/1/workouts/',
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ export function saveWorkout (workout) {
 
 export function deleteWorkoutById (workoutId) {
   return axios({
-    url: `http://localhost:8080/api/v1/users/2/workouts/${workoutId}`,
+    url: `http://localhost:8080/api/v1/users/1/workouts/${workoutId}`,
     method: 'delete'
   }).then((response) => console.log(response))
 }

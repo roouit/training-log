@@ -13,7 +13,7 @@ function WorkoutForm() {
 
   useEffect(() => {
     setWorkout({
-      user_id: 2,
+      user_id: 1,
       date: date,
       entries: []
     })
@@ -62,7 +62,7 @@ function WorkoutForm() {
     setExercises([])
     setDate(null)
     setWorkout({
-      user_id: 2,
+      user_id: 1,
       date: date,
       entries: []
     })

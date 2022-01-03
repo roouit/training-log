@@ -74,7 +74,7 @@ function WorkoutFormExercise({
         spacing={1}
         direction='row'
         justifyContent='start'
-        sx={{ marginBottom: '10px' }}
+        sx={{ margin: '10px 0px' }}
       >
         <SelectExercise handleSetExercise={handleSetExercise} />
         <Button variant='outlined' onClick={handleAddSet}>

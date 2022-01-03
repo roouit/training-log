@@ -25,3 +25,14 @@ export function deleteWorkoutById (workoutId) {
     method: 'delete'
   }).then((response) => console.log(response))
 }
+
+export function updateWorkoutById(id, workoutData) {
+  return axios({
+    url: `http://localhost:8080/api/v1/users/1/workouts/${id}`,
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: workoutData
+  }).then((response) => console.log(response))
+}

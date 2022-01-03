@@ -5,6 +5,7 @@ import WorkoutFormHeader from './workout-form-header'
 import WorkoutFormFooter from './workout-form-footer'
 import WorkoutFormExercise from './workout-form-exercise'
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 function WorkoutForm() {
   const [exercises, setExercises] = useState([])
@@ -96,16 +97,20 @@ function WorkoutForm() {
           setDate={setDate}
           handleAddExercise={handleAddExercise}
         />
-        {exercises.map((exer) => {
-          return (
-            <WorkoutFormExercise
-              key={exer.exercise_uuid}
-              exerciseUuid={exer.exercise_uuid}
-              handleRemoveExercise={handleRemoveExercise}
-              updateExercise={updateExercise}
-            />
-          )
-        })}
+        {exercises.length === 0 ? (
+          <Typography align='center'>No exercises added</Typography>
+        ) : (
+          exercises.map((exer) => {
+            return (
+              <WorkoutFormExercise
+                key={exer.exercise_uuid}
+                exerciseUuid={exer.exercise_uuid}
+                handleRemoveExercise={handleRemoveExercise}
+                updateExercise={updateExercise}
+              />
+            )
+          })
+        )}
 
         <WorkoutFormFooter handleSaveWorkout={handleSaveWorkout} />
       </Box>

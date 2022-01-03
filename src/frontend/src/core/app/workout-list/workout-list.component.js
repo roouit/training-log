@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import Workout from './workout'
-import { getWorkouts, deleteWorkoutById } from '../../../shared/api'
+import { getWorkouts, deleteWorkoutById, updateWorkoutById } from '../../../shared/api'
 
 function WorkoutList () {
   const [offset, setOffset] = useState(0)
@@ -43,40 +43,51 @@ function WorkoutList () {
     deleteWorkoutById(workoutId)
   }
 
-  function handleUpdateWorkout (workoutId) {
+  function handleUpdateWorkout (workoutId, editedEntries, date) {
+    const entries = editedEntries.filter(entry => {
+      return Object.keys(entry).length > 1
+    })
     const updatedWorkout = {
-      workout_id: undefined,
-      user_id: undefined,
-      date: undefined,
-      entries: undefined
+      date: date ? date : undefined,
+      entries: entries.length > 0 ? entries : undefined
     }
+    updateWorkoutById(workoutId, updatedWorkout)
+  }
+
+  if (loading) {
+    return <div>Loading your data...</div>
+  }
+
+  if (error) {
+    return <div>An error occured while retrieving workouts</div>
   }
 
   return (
     <>
       <Stack spacing={1}>
-        {error ? <div>virhe</div> : ''}
-        {loading
-          ? 'Lataa'
-          : workouts.map((workout) => (
-              <Workout
-                key={`workout${workout.workout_id}`}
-                data={workout}
-                handleRemoveWorkout={handleRemoveWorkout}
-                handleUpdateWorkout={handleUpdateWorkout}
-              />
-            ))}
+        {workouts.length === 0 ? (
+          <div>No workouts, yet!</div>
+        ) : (
+          workouts.map((workout) => (
+            <Workout
+              key={`workout${workout.workout_id}`}
+              workoutData={workout}
+              handleRemoveWorkout={handleRemoveWorkout}
+              handleUpdateWorkout={handleUpdateWorkout}
+            />
+          ))
+        )}
         <Stack direction='row' spacing={2} justifyContent='center'>
           {offset > 0 ? (
             <Button variant='text' onClick={() => setOffset(offset - limit)}>
-              Newer
+              Previous
             </Button>
           ) : (
             ''
           )}
           {isNext ? (
             <Button variant='text' onClick={() => setOffset(offset + limit)}>
-              Older
+              Next
             </Button>
           ) : (
             ''

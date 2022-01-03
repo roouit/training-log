@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Exercise from '../exercise'
+import ExerciseEdit from '../exercise-edit'
 import moment from 'moment'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
@@ -8,6 +9,10 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DateTimePicker from '@mui/lab/DateTimePicker'
+import TextField from '@mui/material/TextField'
 
 function getWorkoutHeader (datetime) {
   const date = moment(datetime).format('DD.MM.Y')
@@ -17,27 +22,57 @@ function getWorkoutHeader (datetime) {
   return header
 }
 
-function Workout({ data, handleRemoveWorkout, handleUpdateWorkout }) {
+function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
   const [exercises, setExercises] = useState([])
+  const [editedEntries, setEditedEntries] = useState([])
+  const [editedDate, setEditedDate] = useState('')
   const [editView, setEditView] = useState(false)
 
   useEffect(() => {
     const newExercises = []
     let temp = []
-    let currentExerciseId = data.entries[0].exercise_id
-    data.entries.forEach((entry, index) => {
+    let currentExerciseId = workoutData.entries[0].exercise_id
+    workoutData.entries.forEach((entry, index) => {
       if (currentExerciseId !== entry.exercise_id) {
         currentExerciseId = entry.exercise_id
         newExercises.push(temp)
         temp = []
       }
       temp.push(entry)
-      if (data.entries.length - 1 === index) {
+      if (workoutData.entries.length - 1 === index) {
         newExercises.push(temp)
       }
     })
     setExercises(newExercises)
-  }, [data])
+  }, [workoutData])
+
+  function handleAddEntry (newEntry) {
+    let entryIndex = -1
+    const newEntries = [...editedEntries]
+    newEntries.forEach((entry, index) => {
+      if (entry.id === newEntry.id) {
+        entryIndex = index
+      }
+    })
+    if (entryIndex >= 0) {
+      newEntries[entryIndex] = newEntry
+    } else {
+      newEntries.push(newEntry)
+    }
+    setEditedEntries(newEntries)
+  }
+
+  function handleSaveWorkout () {
+    handleUpdateWorkout(workoutData.workout_id, editedEntries, editedDate)
+    setEditView(false)
+  }
+
+  function handleDateChange(newDate) {
+    const date = moment(newDate).format('YYYY-MM-DD HH:mm')
+    if (date !== 'Invalid date') {
+      setEditedDate(moment(newDate).format('YYYY-MM-DD HH:mm'))
+    }
+  }
 
   return (
     <>
@@ -45,7 +80,7 @@ function Workout({ data, handleRemoveWorkout, handleUpdateWorkout }) {
         {!editView ? (
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>{getWorkoutHeader(data.date)}</Typography>
+              <Typography>{getWorkoutHeader(workoutData.date)}</Typography>
             </AccordionSummary>
             <AccordionDetails
               sx={{
@@ -57,7 +92,7 @@ function Workout({ data, handleRemoveWorkout, handleUpdateWorkout }) {
               ))}
               <Button
                 color='error'
-                onClick={() => handleRemoveWorkout(data.workout_id)}
+                onClick={() => handleRemoveWorkout(workoutData.workout_id)}
               >
                 Remove workout
               </Button>
@@ -70,10 +105,23 @@ function Workout({ data, handleRemoveWorkout, handleUpdateWorkout }) {
               <Typography>Edit workout</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Button
-                color='success'
-                onClick={() => handleUpdateWorkout(data.workout_id)}
-              >
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  inputFormat='dd.MM.yyyy HH:mm'
+                  renderInput={(props) => <TextField size='small' {...props} />}
+                  label='Date and time of workout'
+                  value={editedDate ? editedDate : workoutData.date}
+                  onChange={handleDateChange}
+                />
+              </LocalizationProvider>
+              {exercises.map((exercise, index) => (
+                <ExerciseEdit
+                  key={`exercise${index}`}
+                  exerciseData={exercise}
+                  handleAddEntry={handleAddEntry}
+                />
+              ))}
+              <Button color='success' onClick={handleSaveWorkout}>
                 Save workout
               </Button>
               <Button onClick={() => setEditView(false)}>Cancel</Button>

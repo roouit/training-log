@@ -36,11 +36,11 @@ function UserSettings () {
   }
 
   if (loading) {
-    return error ? (
-      <div>An error occured while retrieving user data</div>
-    ) : (
-      <div>Loading your data...</div>
-    )
+    return <div>Loading your data...</div>
+  }
+
+  if (error) {
+    return <div>An error occured while retrieving workouts</div>
   }
   
   return (

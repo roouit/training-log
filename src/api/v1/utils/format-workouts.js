@@ -33,6 +33,7 @@ exports.formatWorkouts = (rowList) => {
 const formatSingleWorkout = (rowList) => {
   const workoutRows = rowList.map((row) => {
     return {
+      id: row.id,
       exercise_id: row.exercise_id,
       set_number: row.set_number,
       repetitions: row.repetitions,

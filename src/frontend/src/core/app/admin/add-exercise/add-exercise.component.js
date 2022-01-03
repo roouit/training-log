@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { saveExercise } from '../../../../shared/api'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -9,7 +10,10 @@ function AddExercise () {
 
   function handleAddExercise () {
     if (name) {
-      console.log(name)
+      saveExercise({
+        exercise_name: name
+      })
+      setName('')
     }
   }
 
@@ -28,7 +32,7 @@ function AddExercise () {
           variant='standard'
           type='text'
           label='New exercise name'
-          id='exercise_name'
+          value={name}
           onChange={(e) => setName(e.target.value)}
         ></TextField>
         <Button variant='contained' color='success' onClick={handleAddExercise}>

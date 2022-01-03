@@ -13,3 +13,32 @@ export function getExerciseById (id) {
     }
   )
 }
+
+export function saveExercise(exercise) {
+  return axios({
+    url: 'http://localhost:8080/api/v1/exercises/',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: exercise
+  }).then((response) => console.log(response))
+}
+
+export function updateExerciseById(id, exerciseData) {
+  return axios({
+    url: `http://localhost:8080/api/v1/exercises/${id}`,
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: exerciseData
+  }).then((response) => console.log(response))
+}
+
+export function deleteExerciseById(id) {
+  return axios({
+    url: `http://localhost:8080/api/v1/exercises/${id}`,
+    method: 'delete'
+  }).then((response) => console.log(response))
+}

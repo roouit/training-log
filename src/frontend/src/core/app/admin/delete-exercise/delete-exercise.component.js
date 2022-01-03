@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import SelectExercise from '../../workout-form/select-exercise/'
+import { deleteExerciseById } from '../../../../shared/api'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -13,7 +14,8 @@ function DeleteExercise () {
 
   function handleUpdateExercise() {
     if (exerciseId) {
-      console.log(exerciseId)
+      deleteExerciseById(exerciseId)
+      setExerciseId(null)
     }
   }
 

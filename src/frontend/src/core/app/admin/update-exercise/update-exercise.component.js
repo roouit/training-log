@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import SelectExercise from '../../workout-form/select-exercise/'
+import { updateExerciseById } from '../../../../shared/api'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -13,9 +14,13 @@ function UpdateExercise () {
     setExercise(newExercise)
   }
 
-  function handleUpdateExercise(newName) {
+  function handleUpdateExercise() {
     if (exercise) {
-      console.log(newName)
+      updateExerciseById(exercise.id, {
+        exercise_name: name
+      })
+      setName('')
+      setExercise(null)
     }
   }
 
@@ -35,13 +40,13 @@ function UpdateExercise () {
           variant='standard'
           type='text'
           label='New exercise name'
-          id='exercise_name'
+          value={name}
           onChange={(e) => setName(e.target.value)}
         ></TextField>
         <Button
           variant='contained'
           color='success'
-          onClick={() => handleUpdateExercise(name)}
+          onClick={handleUpdateExercise}
         >
           Update exercise
         </Button>

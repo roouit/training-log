@@ -2,27 +2,25 @@ import React, { useState } from 'react'
 import SelectExercise from '../../workout-form/select-exercise/'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-function UpdateExercise () {
-  const [exercise, setExercise] = useState(null)
-  const [name, setName] = useState('')
+function DeleteExercise () {
+  const [exerciseId, setExerciseId] = useState(null)
 
   function handleSetExercise(newExercise) {
-    setExercise(newExercise)
+    setExerciseId(newExercise.id)
   }
 
-  function handleUpdateExercise(newName) {
-    if (exercise) {
-      console.log(newName)
+  function handleUpdateExercise() {
+    if (exerciseId) {
+      console.log(exerciseId)
     }
   }
 
   return (
     <>
       <Typography variant='h6' gutterBottom={true}>
-        Update exercise
+        Delete exercise
       </Typography>
       <Stack
         spacing={2}
@@ -31,23 +29,16 @@ function UpdateExercise () {
         alignItems='center'
       >
         <SelectExercise handleSetExercise={handleSetExercise} />
-        <TextField
-          variant='standard'
-          type='text'
-          label='New exercise name'
-          id='exercise_name'
-          onChange={(e) => setName(e.target.value)}
-        ></TextField>
         <Button
           variant='contained'
-          color='success'
-          onClick={() => handleUpdateExercise(name)}
+          color='error'
+          onClick={handleUpdateExercise}
         >
-          Update exercise
+          Delete exercise
         </Button>
       </Stack>
     </>
   )
 }
 
-export default UpdateExercise
+export default DeleteExercise

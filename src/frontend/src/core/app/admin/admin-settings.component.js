@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
-import UpdateExercise from './update-exercise/update-exercise.component'
-import Typography from '@mui/material/Typography'
+import React from 'react'
+import UpdateExercise from './update-exercise'
+import AddExercise from './add-exercise'
+import DeleteExercise from './delete-exercise'
+import Stack from '@mui/material/Stack'
 
 function AdminSettings() {
   return (
     <>
-      <Typography variant='h6'>Update exercise</Typography>
-      <UpdateExercise/>
+      <Stack
+        spacing={2}
+        direction='column'
+        alignItems='start'
+      >
+        <UpdateExercise />
+        <AddExercise />
+        <DeleteExercise />
+      </Stack>
     </>
   )
 }

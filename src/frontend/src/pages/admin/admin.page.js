@@ -7,7 +7,7 @@ function AdminPage() {
   return (
     <>
       <AdminNavigation />
-      <Typography variant='h4' textAlign='center' gutterBottom={true}>
+      <Typography variant='h3' textAlign='center' gutterBottom={true}>
         Admin settings
       </Typography>
       <AdminSettings/>

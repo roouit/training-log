@@ -236,7 +236,6 @@ Workout.updateById = (workout_id, workout) => {
         await connection.query('COMMIT')
         resolve(update_rps)
       } catch (err) {
-        console.log('rollback')
         await connection.query('ROLLBACK')
         reject(err)
       } finally {

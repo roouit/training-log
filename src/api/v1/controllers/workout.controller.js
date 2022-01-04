@@ -21,10 +21,10 @@ const { formatWorkouts } = require('../utils/format-workouts')
  */
 exports.getAllUserWorkouts = async (req, res, next) => {
   const user_id = req.params.user_id
-  const limit = parseInt(req.query.limit)
-  const offset = parseInt(req.query.offset)
-  const asc = Boolean(req.query.asc)
-  const olderThan = Boolean(req.query.olderThan)
+  const limit = req.query.limit
+  const offset = req.query.offset
+  const asc = req.query.asc
+  const olderThan = req.query.olderThan
   const date = req.query.date
   try {
     const response = await Workout.getAll(user_id, limit, offset, date, olderThan, asc)
@@ -158,7 +158,6 @@ exports.updateWorkoutById = async (req, res, next) => {
       message: messages
     })
   } catch (err) {
-    console.log(err)
     next(err)
   }
 }

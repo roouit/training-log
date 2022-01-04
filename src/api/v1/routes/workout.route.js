@@ -1,4 +1,6 @@
 const express = require('express')
+const { validateWorkoutQueryParams } = require('../utils/validation/validate-workout-query-params')
+
 const router = express.Router({ mergeParams: true })
 const {
   getAllUserWorkouts,
@@ -7,6 +9,8 @@ const {
   deleteWorkoutById,
   updateWorkoutById
 } = require('../controllers/workout.controller')
+
+router.get('/', validateWorkoutQueryParams)
 
 router.get('/', getAllUserWorkouts)
 router.get('/:workout_id([0-9]+)', getUserWorkoutById)

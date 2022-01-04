@@ -9,9 +9,11 @@ const {
   updateExerciseById
 } = require('../controllers/exercise.controller')
 
+// validation middleware
 router.post('/', validateExercise)
 router.put('/:id([0-9]+)', validateExercise)
 
+// endpoints
 router.get('/', getAllExercises)
 router.get('/:id([0-9]+)', getExerciseById)
 router.post('/', createNewExercise)

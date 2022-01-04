@@ -1,6 +1,52 @@
 const moment = require('moment')
 
 /**
+ * A middleware function that validates workout data.
+ * If data is invalid, an error response is sent.
+ * @param {Object} req - The request.
+ * @param {Object} req.body - The object containing workout data
+ * @param {Object} res - The response.
+ * @param {Function} next - The next middleware
+ */
+exports.validateWorkoutData = (req, res, next) => {
+  const err = {
+    statusCode: 400
+  }
+  Object.entries(req.body).forEach(([key, value]) => {
+    switch (key) {
+      case 'date':
+        if (!moment(value).isValid()) {
+          err.message = 'Date is not valid'
+          next(err)
+        }
+        break
+      case 'user_id':
+        if (!Number.isInteger(parseInt(value))) {
+          err.message = 'User id is not an integer'
+          next(err)
+        }
+        break
+      case 'entries':
+        value.forEach(entry => {
+          Object.entries(entry).forEach(([key, value]) => {
+            if (!Number.isInteger(parseInt(value))) {
+              err.message = `${key} is not valid`
+              next(err)
+            } else if (parseInt(value) <= 0) {
+              err.message = `${key} must be greater than 0`
+              next(err)
+            }
+          })
+        })
+        break
+      default:
+        break
+    }
+  })
+  next()
+}
+
+/**
  * A middleware function that validates query parameters when fetching workouts.
  * If parameter is valid, it is formatted (if applicable) and saved to req.query
  * object. If any of the parameters are invalid or there are unknown parameters,

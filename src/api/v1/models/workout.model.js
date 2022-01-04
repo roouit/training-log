@@ -26,28 +26,41 @@ function Workout (workout) {
 }
 
 /**
- * Select all workouts for the current user
+ * Select all workouts for the current user with given parameters.
  * @param {string} user_id - The id of the user whose workouts are queried
  * @param {Number} limit - The number determining how many workouts are fetched
  * @param {Number} offset - The number determining how many workouts are skipped
  *                          from the beginning when fetching data
+ * @param {string} [date="0000-00-00 00:00:00"] - The cutoff date for query
+ * @param {boolean} [olderThan=false] - Binary operator which determines if the
+ *                           workouts returned are older than the cutoff date
+ * @param {boolean} [asc=false] - Binary operator which determines if the
+ *                           workouts returned are ordered in ascending order by date
  * @returns {Promise} Promise object that represents all workouts or error
  */
-Workout.getAll = (user_id, limit, offset) => {
+Workout.getAll = (user_id, limit, offset, date = '0000-00-00 00:00:00', olderThan = false, asc = false) => {
   return new Promise((resolve, reject) => {
     async function query () {
       const connection = await db.connection()
       try {
         const workouts = await connection.query(
-          'SELECT * FROM workout WHERE user_id = ? ORDER BY date DESC LIMIT ? OFFSET ?',
-          [user_id, limit, offset]
+          `SELECT * FROM workout 
+          WHERE user_id = ? 
+          AND date ${olderThan ? '<' : '>'} ? 
+          ORDER BY date ${asc ? 'ASC' : 'DESC'} 
+          LIMIT ? OFFSET ?`,
+          [user_id, date, limit, offset]
         )
         if (workouts.length > 0) {
           const workout_ids = workouts.map((workout) => {
             return workout.id
           })
           const result = await connection.query(
-            'SELECT * FROM workout INNER JOIN workout_exercises ON workout_exercises.workout_id = workout.id WHERE workout.id IN (?) ORDER BY date DESC, exercise_id, set_number',
+            `SELECT * FROM workout 
+            INNER JOIN workout_exercises 
+            ON workout_exercises.workout_id = workout.id 
+            WHERE workout.id IN (?) 
+            ORDER BY date ${asc ? 'ASC' : 'DESC'}, exercise_id, set_number`,
             [workout_ids]
           )
           resolve(result)

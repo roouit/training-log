@@ -4,11 +4,18 @@ const { formatWorkouts } = require('../utils/format-workouts')
 
 /**
  * A route handler function that tries to get all of the users workouts from database.
+ * It's mandatory to give limit and offset as query parameters. Other optional query
+ * parameters can be given for ordering and date filtering.
  * @param {Object} req - The request.
  * @param {string} req.params.user_id - The id of the user
  * @param {string} req.query.limit - The number determining how many workouts are fetched
  * @param {string} req.query.offset - The number determining how many workouts are skipped
  *                                    from the beginning when fetching data
+ * @param {string} [req.query.date] - The cutoff date for query
+ * @param {boolean} [req.query.olderThan] - Binary operator which determines if the
+ *                           workouts returned are older than the cutoff date
+ * @param {boolean} [req.query.asc] - Binary operator which determines if the
+ *                           workouts returned are ordered in ascending order by date
  * @param {Object} res - The response.
  * @param {Function} next - The next middleware
  */
@@ -16,8 +23,11 @@ exports.getAllUserWorkouts = async (req, res, next) => {
   const user_id = req.params.user_id
   const limit = parseInt(req.query.limit)
   const offset = parseInt(req.query.offset)
+  const asc = Boolean(req.query.asc)
+  const olderThan = Boolean(req.query.olderThan)
+  const date = req.query.date
   try {
-    const response = await Workout.getAll(user_id, limit, offset)
+    const response = await Workout.getAll(user_id, limit, offset, date, olderThan, asc)
     if (response[0]) {
       const workouts = formatWorkouts(response)
       res.status(200).send(workouts)

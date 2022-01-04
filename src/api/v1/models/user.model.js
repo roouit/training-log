@@ -21,31 +21,6 @@ function User (user) {
 }
 
 /**
- * Select all users
- * @returns {Promise} Promise object that represents all users or error
- */
-User.getAll = () => {
-  return new Promise((resolve, reject) => {
-    db.pool.query('SELECT * from user', (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        const users = data.map(user => {
-          return new User({
-            id: user.id,
-            username: user.username,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email
-          })
-        })
-        resolve(users)
-      }
-    })
-  })
-}
-
-/**
  * Select a single user by id
  * @param {string} id - The id of a user
  * @returns {Promise} Promise object that represents a user or error

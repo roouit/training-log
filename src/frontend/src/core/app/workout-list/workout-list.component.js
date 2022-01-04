@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Workout from './workout'
+import OrderOptions from './order-options/'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
-import Workout from './workout'
 import { getWorkouts, deleteWorkoutById, updateWorkoutById } from '../../../shared/api'
 
 function WorkoutList () {
@@ -21,7 +22,13 @@ function WorkoutList () {
   useEffect(() => {
     async function call() {
       try {
-        const data = await getWorkouts(offset, limit, ascending, olderThan, cutoffDate)
+        const data = await getWorkouts(
+          offset,
+          limit,
+          ascending,
+          olderThan,
+          cutoffDate
+        )
         data.length < limit ? setIsNext(false) : setIsNext(true)
         setWorkouts(data)
       } catch (error) {
@@ -32,7 +39,7 @@ function WorkoutList () {
     }
     setLoading(true)
     call()
-  }, [offset])
+  }, [offset, ascending, olderThan, cutoffDate])
 
   function handleRemoveWorkout(workoutId) {
     const newWorkouts = [...workouts]
@@ -70,6 +77,14 @@ function WorkoutList () {
 
   return (
     <>
+      <OrderOptions
+        ascending={ascending}
+        setAscending={setAscending}
+        olderThan={olderThan}
+        setOlderThan={setOlderThan}
+        cutoffDate={cutoffDate}
+        setCutoffDate={setCutoffDate}
+      />
       <Stack spacing={1}>
         {workouts.length === 0 ? (
           <div>No workouts, yet!</div>

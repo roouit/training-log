@@ -21,16 +21,21 @@ This application was developed as a part of studies in TAMK to demonstrate skill
 
 ## Todo
 
-- [x] Initialize project
-- [x] Design and create database
-- [x] Create basic CRUD methods for database (user)
-- [x] Create basic CRUD methods for database (admin)
-- [ ] Create advanced routing (filtering and sorting)
-- [ ] Create robust error handling
-- [ ] Create simple frontend for accessing API endpoints
-- [ ] Design and create a nice UI for the app
-- [ ] (Optional) Add authentication
-- [ ] (Optional) Add license before publishing
+- Backend
+  - [x] Initialize project
+  - [x] Design and create database
+  - [x] Create basic CRUD methods for database (user)
+  - [x] Create basic CRUD methods for database (admin)
+  - [x] Create filtering and sorting functionality
+  - [ ] Create robust error handling in the backend
+  - [ ] (Optional) Add authentication
+- Frontend
+  - [x] Create simple frontend for accessing API endpoints
+  - [x] Design and create a nice UI for the app
+  - [ ] Create robust error handling in the UI
+- Other
+  - [ ] Host app in Heroku
+  - [ ] (Optional) Add license, if made public
 
 ## Installation
 

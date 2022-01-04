@@ -4,7 +4,7 @@ const moment = require('moment')
  * A middleware function that validates query parameters when fetching workouts.
  * If parameter is valid, it is formatted (if applicable) and saved to req.query
  * object. If any of the parameters are invalid or there are unknown parameters,
- * an error is raised.
+ * an error response is sent.
  * @param {Object} req - The request.
  * @param {Object} req.query - The object containing all query parameters
  * @param {Object} res - The response.

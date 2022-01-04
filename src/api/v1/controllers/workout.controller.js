@@ -8,8 +8,8 @@ const { formatWorkouts } = require('../utils/format-workouts')
  * parameters can be given for ordering and date filtering.
  * @param {Object} req - The request.
  * @param {string} req.params.user_id - The id of the user
- * @param {string} req.query.limit - The number determining how many workouts are fetched
- * @param {string} req.query.offset - The number determining how many workouts are skipped
+ * @param {number} req.query.limit - The number determining how many workouts are fetched
+ * @param {number} req.query.offset - The number determining how many workouts are skipped
  *                                    from the beginning when fetching data
  * @param {string} [req.query.date] - The cutoff date for query
  * @param {boolean} [req.query.olderThan] - Binary operator which determines if the

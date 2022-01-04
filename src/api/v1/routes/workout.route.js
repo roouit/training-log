@@ -1,5 +1,5 @@
 const express = require('express')
-const { validateWorkoutQueryParams } = require('../utils/validation/validate-workout-query-params')
+const { validateWorkoutQueryParams } = require('../utils/validation/workout')
 
 const router = express.Router({ mergeParams: true })
 const {

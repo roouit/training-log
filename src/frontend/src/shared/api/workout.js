@@ -1,8 +1,11 @@
 import axios from 'axios'
 
-export function getWorkouts (offset = 0, limit = 10) {
+export function getWorkouts (offset, limit, ascending, olderThan, cutoffDate) {
   return axios(
-    `http://localhost:8080/api/v1/users/1/workouts?offset=${offset}&limit=${limit}`
+    `http://localhost:8080/api/v1/users/1/workouts?offset=${offset}&limit=${limit}
+    ${ascending ? '&asc=true' : ''}
+    ${olderThan ? '&olderThan=true' : ''}
+    ${cutoffDate ? `&date=${cutoffDate}` : ''}`
   ).then((response) => {
     return response.data ? response.data : []
   })

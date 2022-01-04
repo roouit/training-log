@@ -5,17 +5,23 @@ import Workout from './workout'
 import { getWorkouts, deleteWorkoutById, updateWorkoutById } from '../../../shared/api'
 
 function WorkoutList () {
+  // vars used in data fetch call
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(10)
-  const [isNext, setIsNext] = useState(true)
+  const [ascending, setAscending] = useState(false)
+  const [olderThan, setOlderThan] = useState(false)
+  const [cutoffDate, setCutoffDate] = useState('')
+  // vars related to data fetching status and data
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [workouts, setWorkouts] = useState([])
+  // if there's next page of workouts
+  const [isNext, setIsNext] = useState(true)
 
   useEffect(() => {
     async function call() {
       try {
-        const data = await getWorkouts(offset, limit)
+        const data = await getWorkouts(offset, limit, ascending, olderThan, cutoffDate)
         data.length < limit ? setIsNext(false) : setIsNext(true)
         setWorkouts(data)
       } catch (error) {
@@ -28,7 +34,7 @@ function WorkoutList () {
     call()
   }, [offset])
 
-  function handleRemoveWorkout (workoutId) {
+  function handleRemoveWorkout(workoutId) {
     const newWorkouts = [...workouts]
     let indexToDel = null
     workouts.forEach((workout, index) => {
@@ -43,8 +49,8 @@ function WorkoutList () {
     deleteWorkoutById(workoutId)
   }
 
-  function handleUpdateWorkout (workoutId, editedEntries, date) {
-    const entries = editedEntries.filter(entry => {
+  function handleUpdateWorkout(workoutId, editedEntries, date) {
+    const entries = editedEntries.filter((entry) => {
       return Object.keys(entry).length > 1
     })
     const updatedWorkout = {

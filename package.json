@@ -4,8 +4,8 @@
   "description": "A project for a backend course at TAMK",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "heroku-postbuild": "cd src/frontend && npm install && npm run build"
   },
   "author": "Roope Uitto",
   "license": "ISC",

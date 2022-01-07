@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # HTTP test file
-.http
+*.http

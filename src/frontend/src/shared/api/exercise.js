@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 export function getAllExercises () {
-  return axios('http://localhost:8080/api/v1/exercises/').then((response) => {
+  return axios('api/v1/exercises/').then((response) => {
     return response.data ? response.data : []
   })
 }
 
 export function getExerciseById (id) {
-  return axios(`http://localhost:8080/api/v1/exercises/${id}`).then(
+  return axios(`api/v1/exercises/${id}`).then(
     (response) => {
       return response.data ? response.data : []
     }
@@ -16,7 +16,7 @@ export function getExerciseById (id) {
 
 export function saveExercise(exercise) {
   return axios({
-    url: 'http://localhost:8080/api/v1/exercises/',
+    url: 'api/v1/exercises/',
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ export function saveExercise(exercise) {
 
 export function updateExerciseById(id, exerciseData) {
   return axios({
-    url: `http://localhost:8080/api/v1/exercises/${id}`,
+    url: `api/v1/exercises/${id}`,
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ export function updateExerciseById(id, exerciseData) {
 
 export function deleteExerciseById(id) {
   return axios({
-    url: `http://localhost:8080/api/v1/exercises/${id}`,
+    url: `api/v1/exercises/${id}`,
     method: 'delete'
   }).then((response) => console.log(response))
 }

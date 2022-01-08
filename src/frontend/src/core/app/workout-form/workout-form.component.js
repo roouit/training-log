@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { saveWorkout } from '../../../shared/api'
+import ToastNotification from '../../../shared/components/toast'
 import WorkoutFormHeader from './workout-form-header'
 import WorkoutFormFooter from './workout-form-footer'
 import WorkoutFormExercise from './workout-form-exercise'
@@ -51,7 +52,7 @@ function WorkoutForm() {
     setExercises(newExercises)
   }
 
-  function handleSaveWorkout () {
+  async function handleSaveWorkout () {
     const workoutToSave = {...workout}
     exercises.forEach(exer => {
       exer.sets.forEach(set => {
@@ -59,14 +60,22 @@ function WorkoutForm() {
         workoutToSave.entries.push(set)
       })
     })
-    saveWorkout(workoutToSave)
-    setExercises([])
-    setDate(null)
-    setWorkout({
-      user_id: 1,
-      date: date,
-      entries: []
-    })
+
+    const result = await saveWorkout(workoutToSave)
+    if (result.status === 201) {
+      setExercises([])
+      setDate(null)
+      setWorkout({
+        user_id: 1,
+        date: date,
+        entries: []
+      })
+      ToastNotification(true, 'Workout created')
+    } else if (result.status === 400) {
+      ToastNotification(false, result.data.message)
+    } else {
+      ToastNotification(false, 'Error when creating workout')
+    }
   }
 
   function updateExercise(exerciseUuid, newSets) {

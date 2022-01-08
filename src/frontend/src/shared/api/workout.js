@@ -11,15 +11,20 @@ export function getWorkouts (offset, limit, ascending, olderThan, cutoffDate) {
   })
 }
 
-export function saveWorkout (workout) {
-  return axios({
-    url: 'api/v1/users/2/workouts/',
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: workout
-  }).then((response) => console.log(response))
+export async function saveWorkout (workout) {
+  try {
+    const result = await axios({
+      url: 'api/v1/users/2/workouts/',
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: workout
+    })
+    return result
+  } catch (error) {
+    return error.response
+  }
 }
 
 export function deleteWorkoutById (workoutId) {

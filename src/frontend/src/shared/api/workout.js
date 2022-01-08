@@ -39,13 +39,18 @@ export async function deleteWorkoutById (workoutId) {
   }
 }
 
-export function updateWorkoutById(id, workoutData) {
-  return axios({
-    url: `api/v1/users/2/workouts/${id}`,
-    method: 'put',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: workoutData
-  }).then((response) => console.log(response))
+export async function updateWorkoutById(id, workoutData) {
+  try {
+    const result = await axios({
+      url: `api/v1/users/2/workouts/${id}`,
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: workoutData
+    })
+    return result
+  } catch (error) {
+    return error.response
+  }
 }

@@ -61,7 +61,7 @@ function WorkoutList () {
     } else if (result.status === 404) {
       ToastNotification(false, 'Workout not found')
     } else {
-      ToastNotification(false, 'Error when deleting')
+      ToastNotification(false, 'Error when deleting a workout')
     }
   }
 
@@ -73,7 +73,21 @@ function WorkoutList () {
       date: date ? date : undefined,
       entries: entries.length > 0 ? entries : undefined
     }
-    updateWorkoutById(workoutId, updatedWorkout)
+    
+    const result = updateWorkoutById(workoutId, updatedWorkout)
+    if (result.status === 200) {
+      ToastNotification(true, 'Workout updated')
+    } else if (result.status === 400) {
+      ToastNotification(false, result.data.message)
+    } else if (result.status === 404) {
+      const msg =
+        result.data.message.workout === 'update successful'
+          ? result.data.message.entries
+          : result.data.message.workout
+      ToastNotification(false, msg)
+    } else {
+      ToastNotification(false, 'Error when updating a workout')
+    }
   }
 
   if (loading) {

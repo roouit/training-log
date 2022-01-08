@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import fi from 'date-fns/locale/fi'
 import TextField from '@mui/material/TextField'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
@@ -15,7 +16,7 @@ function WorkoutFormHeader({ date, setDate, handleAddExercise }) {
   return (
     <div className='workout-form-header' style={{ marginBottom: '10px' }}>
       <Stack spacing={2} direction='row' justifyContent='center'>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} locale={fi}>
           <DateTimePicker
             inputFormat='dd.MM.yyyy HH:mm'
             renderInput={(props) => <TextField size='small' {...props} />}

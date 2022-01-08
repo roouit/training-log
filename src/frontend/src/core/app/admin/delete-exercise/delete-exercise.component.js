@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import SelectExercise from '../../workout-form/select-exercise/'
 import { deleteExerciseById } from '../../../../shared/api'
+import ToastNotification from '../../../../shared/components/toast'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -12,10 +13,17 @@ function DeleteExercise () {
     setExerciseId(newExercise.id)
   }
 
-  function handleUpdateExercise() {
+  async function handleUpdateExercise() {
     if (exerciseId) {
-      deleteExerciseById(exerciseId)
-      setExerciseId(null)
+      const result = await deleteExerciseById(exerciseId)
+      if (result.status === 200) {
+        setExerciseId(null)
+        ToastNotification(true, 'Exercise deleted')
+      } else if (result.status === 404) {
+        ToastNotification(false, 'Exercise not found')
+      } else {
+        ToastNotification(false, 'Error when deleting')
+      }
     }
   }
 

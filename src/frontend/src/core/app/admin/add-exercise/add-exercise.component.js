@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { saveExercise } from '../../../../shared/api'
+import ToastNotification from '../../../../shared/components/toast'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -8,12 +9,21 @@ import Typography from '@mui/material/Typography'
 function AddExercise () {
   const [name, setName] = useState('')
 
-  function handleAddExercise () {
+  async function handleAddExercise () {
     if (name) {
-      saveExercise({
+      const result = await saveExercise({
         exercise_name: name
       })
-      setName('')
+      if (result.status === 201) {
+        setName('')
+        ToastNotification(true, 'Exercise added')
+      } else if (result.status === 400) {
+        ToastNotification(false, result.data.message)
+      } else if (result.status === 500 && result.data.error.errno === 1062) {
+        ToastNotification(false, 'Name already taken')
+      } else {
+        ToastNotification(false, 'Error when updating')
+      }
     }
   }
 

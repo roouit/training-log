@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import SelectExercise from '../../workout-form/select-exercise/'
+import ToastNotification from '../../../../shared/components/toast'
 import { updateExerciseById } from '../../../../shared/api'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
@@ -14,13 +15,22 @@ function UpdateExercise () {
     setExercise(newExercise)
   }
 
-  function handleUpdateExercise() {
+  async function handleUpdateExercise() {
     if (exercise) {
-      updateExerciseById(exercise.id, {
+      const result = await updateExerciseById(exercise.id, {
         exercise_name: name
       })
-      setName('')
-      setExercise(null)
+      if (result.status === 200) {
+        setName('')
+        setExercise(null)
+        ToastNotification(true, 'Exercise updated')
+      } else if (result.status === 404) {
+        ToastNotification(false, 'Exercise not found')
+      } else if (result.status === 500 && result.data.error.errno === 1062) {
+        ToastNotification(false, 'Name already taken')
+      } else {
+        ToastNotification(false, 'Error when updating')
+      }
     }
   }
 

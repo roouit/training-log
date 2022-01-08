@@ -14,31 +14,46 @@ export function getExerciseById (id) {
   )
 }
 
-export function saveExercise(exercise) {
-  return axios({
-    url: 'api/v1/exercises/',
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: exercise
-  }).then((response) => console.log(response))
+export async function saveExercise(exercise) {
+  try {
+    const result = await axios({
+      url: 'api/v1/exercises/',
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: exercise
+    })
+    return result
+  } catch (error) {
+    return error.response
+  }
 }
 
-export function updateExerciseById(id, exerciseData) {
-  return axios({
-    url: `api/v1/exercises/${id}`,
-    method: 'put',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: exerciseData
-  }).then((response) => console.log(response))
+export async function updateExerciseById(id, exerciseData) {
+  try {
+    const result = await axios({
+      url: `api/v1/exercises/${id}`,
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: exerciseData
+    })
+    return result
+  } catch (error) {
+    return error.response
+  }
 }
 
-export function deleteExerciseById(id) {
-  return axios({
-    url: `api/v1/exercises/${id}`,
-    method: 'delete'
-  }).then((response) => console.log(response))
+export async function deleteExerciseById(id) {
+  try {
+    const result = await axios({
+      url: `api/v1/exercises/${id}`,
+      method: 'delete'
+    })
+    return result
+  } catch (error) {
+    return error.response
+  }
 }

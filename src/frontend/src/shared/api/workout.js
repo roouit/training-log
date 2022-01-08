@@ -27,11 +27,16 @@ export async function saveWorkout (workout) {
   }
 }
 
-export function deleteWorkoutById (workoutId) {
-  return axios({
-    url: `api/v1/users/2/workouts/${workoutId}`,
-    method: 'delete'
-  }).then((response) => console.log(response))
+export async function deleteWorkoutById (workoutId) {
+  try {
+    const result = await axios({
+      url: `api/v1/users/2/workouts/${workoutId}`,
+      method: 'delete'
+    })
+    return result
+  } catch (error) {
+    return error.response
+  }
 }
 
 export function updateWorkoutById(id, workoutData) {

@@ -4,6 +4,7 @@ import OrderOptions from './order-options/'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import { getWorkouts, deleteWorkoutById, updateWorkoutById } from '../../../shared/api'
+import ToastNotification from '../../../shared/components/toast'
 
 function WorkoutList () {
   // vars used in data fetch call
@@ -41,7 +42,7 @@ function WorkoutList () {
     call()
   }, [offset, ascending, olderThan, cutoffDate])
 
-  function handleRemoveWorkout(workoutId) {
+  async function handleRemoveWorkout(workoutId) {
     const newWorkouts = [...workouts]
     let indexToDel = null
     workouts.forEach((workout, index) => {
@@ -53,7 +54,15 @@ function WorkoutList () {
       newWorkouts.splice(indexToDel, 1)
     }
     setWorkouts(newWorkouts)
-    deleteWorkoutById(workoutId)
+
+    const result = await deleteWorkoutById(workoutId)
+    if (result.status === 200) {
+      ToastNotification(true, 'Workout deleted')
+    } else if (result.status === 404) {
+      ToastNotification(false, 'Workout not found')
+    } else {
+      ToastNotification(false, 'Error when deleting')
+    }
   }
 
   function handleUpdateWorkout(workoutId, editedEntries, date) {

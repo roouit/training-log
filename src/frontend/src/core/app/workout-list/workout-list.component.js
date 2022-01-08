@@ -65,7 +65,7 @@ function WorkoutList () {
     }
   }
 
-  function handleUpdateWorkout(workoutId, editedEntries, date) {
+  async function handleUpdateWorkout(workoutId, editedEntries, date) {
     const entries = editedEntries.filter((entry) => {
       return Object.keys(entry).length > 1
     })
@@ -74,7 +74,8 @@ function WorkoutList () {
       entries: entries.length > 0 ? entries : undefined
     }
     
-    const result = updateWorkoutById(workoutId, updatedWorkout)
+    const result = await updateWorkoutById(workoutId, updatedWorkout)
+    console.log(result)
     if (result.status === 200) {
       ToastNotification(true, 'Workout updated')
     } else if (result.status === 400) {

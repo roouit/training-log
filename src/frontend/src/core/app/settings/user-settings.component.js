@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getUserById, updateUserById } from '../../../shared/api'
+import ToastNotification from '../../../shared/components/toast'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -29,10 +30,21 @@ function UserSettings () {
     setUser(newUser)
   }
 
-  function handleSave () {
+  async function handleSave () {
     const newUser = {...user}
     delete newUser.id
-    updateUserById(user.id, newUser)
+    const result = await updateUserById(user.id, newUser)
+    if (result.status === 200) {
+      ToastNotification(true, 'User data updated')
+    } else if (result.status === 404) {
+      ToastNotification(false, result.data.message)
+    } else if (result.status === 400) {
+      ToastNotification(false, result.data.message)
+    } else if (result.status === 500 && result.data.error.errno === 1062) {
+      ToastNotification(false, 'Username or email already taken')
+    } else {
+      ToastNotification(false, 'Error when updating')
+    }
   }
 
   if (loading) {

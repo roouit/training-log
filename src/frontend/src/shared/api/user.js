@@ -8,15 +8,18 @@ export function getUserById (id) {
   )
 }
 
-export function updateUserById (id, userData) {
-  return axios(
-    {
+export async function updateUserById (id, userData) {
+  try {
+    const result = await axios({
       url: `api/v1/users/${id}`,
       method: 'put',
       headers: {
         'Content-Type': 'application/json'
       },
       data: userData
-    }
-  ).then((response) => console.log(response))
+    })
+    return result
+  } catch (error) {
+    return error.response
+  }
 }

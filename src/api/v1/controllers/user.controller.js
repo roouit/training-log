@@ -70,7 +70,7 @@ exports.deleteUserById = async (req, res, next) => {
       })
     } else {
       res.status(404).send({
-        message: `no user with id = ${user_id}`
+        message: `No user with id = ${user_id}`
       })
     }
   } catch (err) {
@@ -102,7 +102,7 @@ exports.updateUserById = async (req, res, next) => {
       })
     } else {
       res.status(404).send({
-        message: `no user with id = ${user_id}`
+        message: `No user with id = ${user_id}`
       })
     }
   } catch (err) {

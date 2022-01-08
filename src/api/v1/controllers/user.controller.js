@@ -98,7 +98,7 @@ exports.updateUserById = async (req, res, next) => {
     const rp = await User.updateById(user_id, user)
     if (rp.affectedRows > 0) {
       res.status(200).send({
-        message: 'delete successful'
+        message: 'update successful'
       })
     } else {
       res.status(404).send({

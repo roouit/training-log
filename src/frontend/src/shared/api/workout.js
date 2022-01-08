@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export function getWorkouts (offset, limit, ascending, olderThan, cutoffDate) {
   return axios(
-    `api/v1/users/1/workouts?offset=${offset}&limit=${limit}
+    `api/v1/users/2/workouts?offset=${offset}&limit=${limit}
     ${ascending ? '&asc=true' : ''}
     ${olderThan ? '&olderThan=true' : ''}
     ${cutoffDate ? `&date=${cutoffDate}` : ''}`
@@ -13,7 +13,7 @@ export function getWorkouts (offset, limit, ascending, olderThan, cutoffDate) {
 
 export function saveWorkout (workout) {
   return axios({
-    url: 'api/v1/users/1/workouts/',
+    url: 'api/v1/users/2/workouts/',
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -24,14 +24,14 @@ export function saveWorkout (workout) {
 
 export function deleteWorkoutById (workoutId) {
   return axios({
-    url: `api/v1/users/1/workouts/${workoutId}`,
+    url: `api/v1/users/2/workouts/${workoutId}`,
     method: 'delete'
   }).then((response) => console.log(response))
 }
 
 export function updateWorkoutById(id, workoutData) {
   return axios({
-    url: `api/v1/users/1/workouts/${id}`,
+    url: `api/v1/users/2/workouts/${id}`,
     method: 'put',
     headers: {
       'Content-Type': 'application/json'

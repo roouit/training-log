@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import fi from 'date-fns/locale/fi'
 import Stack from '@mui/material/Stack'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -39,7 +40,7 @@ function OrderOptions({
           }
         />
         <Stack direction='row' spacing={1} sx={{ marginBottom: '30px' }}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <LocalizationProvider dateAdapter={AdapterDateFns} locale={fi}>
             <DateTimePicker
               inputFormat='dd.MM.yyyy HH:mm'
               renderInput={(props) => <TextField size='small' {...props} />}

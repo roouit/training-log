@@ -16,10 +16,10 @@ import DateTimePicker from '@mui/lab/DateTimePicker'
 import TextField from '@mui/material/TextField'
 
 function getWorkoutHeader (datetime) {
-  console.log('pre header', datetime)
-  const date = moment(datetime).format('DD.MM.Y')
-  const day = moment(datetime).format('dddd')
-  const time = moment(datetime).format('H:mm')
+  const utcTime = moment(datetime).utc()
+  const date = utcTime.format('DD.MM.Y')
+  const day = utcTime.format('dddd')
+  const time = utcTime.format('H:mm')
   const header = `${day} ${date} @ ${time}`
   return header
 }
@@ -29,7 +29,11 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
   const [editedEntries, setEditedEntries] = useState([])
   const [editedDate, setEditedDate] = useState('')
   const [editView, setEditView] = useState(false)
-  console.log('workout start', workoutData)
+  console.log(moment.utc(workoutData.date).format())
+  console.log(moment.utc(moment(workoutData.date)).format())
+  console.log(
+    moment.utc(workoutData.date).utcOffset(-2, true).format()
+  )
 
   useEffect(() => {
     const newExercises = []
@@ -113,7 +117,11 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
                   inputFormat='dd.MM.yyyy HH:mm'
                   renderInput={(props) => <TextField size='small' {...props} />}
                   label='Date and time of workout'
-                  value={editedDate ? editedDate : workoutData.date}
+                  value={
+                    editedDate
+                      ? moment.utc(editedDate).utcOffset(2, true).format()
+                      : moment.utc(workoutData.date).utcOffset(2, true).format()
+                  }
                   onChange={handleDateChange}
                 />
               </LocalizationProvider>

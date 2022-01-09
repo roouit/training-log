@@ -16,6 +16,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker'
 import TextField from '@mui/material/TextField'
 
 function getWorkoutHeader (datetime) {
+  console.log('pre header', datetime)
   const date = moment(datetime).format('DD.MM.Y')
   const day = moment(datetime).format('dddd')
   const time = moment(datetime).format('H:mm')
@@ -28,6 +29,7 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
   const [editedEntries, setEditedEntries] = useState([])
   const [editedDate, setEditedDate] = useState('')
   const [editView, setEditView] = useState(false)
+  console.log('workout start', workoutData)
 
   useEffect(() => {
     const newExercises = []

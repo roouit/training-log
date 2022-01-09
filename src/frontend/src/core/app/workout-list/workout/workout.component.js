@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Exercise from '../exercise'
 import ExerciseEdit from '../exercise-edit'
 import moment from 'moment'
+import fi from 'date-fns/locale/fi'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import Accordion from '@mui/material/Accordion'
@@ -105,7 +106,7 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
               <Typography>Edit workout</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={fi}>
                 <DateTimePicker
                   inputFormat='dd.MM.yyyy HH:mm'
                   renderInput={(props) => <TextField size='small' {...props} />}

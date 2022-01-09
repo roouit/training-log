@@ -1,15 +1,7 @@
 const mysql = require('mysql')
+const { dbConfig } = require('../../../config/db.config')
 
-const config = {
-  host: process.env.host,
-  user: process.env.user,
-  password: process.env.password,
-  database: process.env.database,
-  connectionLimit: 10,
-  timezone: 'Z'
-}
-
-const pool = mysql.createPool(config)
+const pool = mysql.createPool(dbConfig)
 
 /**
  * A promisified function for getting a connection from the mysql connection pool.

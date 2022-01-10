@@ -4,7 +4,7 @@ import Container from '@mui/material/Container'
 import Router from '../router/'
 import { Toaster } from 'react-hot-toast'
 
-function App() {
+function App () {
   return (
     <>
       <CssBaseline />
@@ -16,4 +16,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

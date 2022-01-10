@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Exercise from '../exercise'
 import ExerciseEdit from '../exercise-edit'
 import moment from 'moment'
@@ -24,16 +25,17 @@ function getWorkoutHeader (datetime) {
   return header
 }
 
-function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
+function Workout ({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
   const [exercises, setExercises] = useState([])
   const [editedEntries, setEditedEntries] = useState([])
   const [editedDate, setEditedDate] = useState('')
   const [editView, setEditView] = useState(false)
-  console.log(moment.utc(workoutData.date).format())
-  console.log(moment.utc(moment(workoutData.date)).format())
-  console.log(
-    moment.utc(workoutData.date).utcOffset(-2, true).format()
-  )
+
+  Workout.propTypes = {
+    workoutData: PropTypes.object.isRequired,
+    handleRemoveWorkout: PropTypes.func.isRequired,
+    handleUpdateWorkout: PropTypes.func.isRequired
+  }
 
   useEffect(() => {
     const newExercises = []
@@ -74,7 +76,7 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
     setEditView(false)
   }
 
-  function handleDateChange(newDate) {
+  function handleDateChange (newDate) {
     const date = moment(newDate).format('YYYY-MM-DD HH:mm')
     if (date !== 'Invalid date') {
       setEditedDate(moment(newDate).format('YYYY-MM-DD HH:mm'))
@@ -84,7 +86,8 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
   return (
     <>
       <Paper>
-        {!editView ? (
+        {!editView
+          ? (
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>{getWorkoutHeader(workoutData.date)}</Typography>
@@ -106,7 +109,8 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
               <Button onClick={() => setEditView(true)}>Update workout</Button>
             </AccordionDetails>
           </Accordion>
-        ) : (
+            )
+          : (
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>Edit workout</Typography>
@@ -138,7 +142,7 @@ function Workout({ workoutData, handleRemoveWorkout, handleUpdateWorkout }) {
               <Button onClick={() => setEditView(false)}>Cancel</Button>
             </AccordionDetails>
           </Accordion>
-        )}
+            )}
       </Paper>
     </>
   )

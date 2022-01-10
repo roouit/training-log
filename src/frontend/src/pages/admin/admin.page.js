@@ -3,7 +3,7 @@ import AdminNavigation from '../../core/app/navigation/admin'
 import AdminSettings from '../../core/app/admin'
 import Typography from '@mui/material/Typography'
 
-function AdminPage() {
+function AdminPage () {
   return (
     <>
       <AdminNavigation />

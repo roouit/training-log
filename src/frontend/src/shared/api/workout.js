@@ -39,7 +39,7 @@ export async function deleteWorkoutById (workoutId) {
   }
 }
 
-export async function updateWorkoutById(id, workoutData) {
+export async function updateWorkoutById (id, workoutData) {
   try {
     const result = await axios({
       url: `api/v1/users/2/workouts/${id}`,

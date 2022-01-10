@@ -1,8 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-function WorkoutFormFooter({ handleSaveWorkout }) {
+function WorkoutFormFooter ({ handleSaveWorkout }) {
+  WorkoutFormFooter.propTypes = {
+    handleSaveWorkout: PropTypes.func.isRequired
+  }
+
   return (
     <>
       <Stack direction='row' justifyContent='end'>

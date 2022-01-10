@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 
-function SetEdit({ setData, handleAddEntry }) {
+function SetEdit ({ setData, handleAddEntry }) {
   const [editedData, setEditedData] = useState({
     id: setData.id
   })
 
-  function handleChange(e) {
+  SetEdit.propTypes = {
+    setData: PropTypes.object.isRequired,
+    handleAddEntry: PropTypes.func.isRequired
+  }
+
+  function handleChange (e) {
     const newData = { ...editedData }
     if (!e.target.value) {
       delete newData[e.target.id]

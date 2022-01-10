@@ -9,6 +9,7 @@ import ToastNotification from '../../../shared/components/toast'
 function WorkoutList () {
   // vars used in data fetch call
   const [offset, setOffset] = useState(0)
+  // eslint-disable-next-line no-unused-vars
   const [limit, setLimit] = useState(10)
   const [ascending, setAscending] = useState(false)
   const [olderThan, setOlderThan] = useState(false)
@@ -21,7 +22,7 @@ function WorkoutList () {
   const [isNext, setIsNext] = useState(true)
 
   useEffect(() => {
-    async function call() {
+    async function call () {
       try {
         const data = await getWorkouts(
           offset,
@@ -42,7 +43,7 @@ function WorkoutList () {
     call()
   }, [offset, ascending, olderThan, cutoffDate])
 
-  async function handleRemoveWorkout(workoutId) {
+  async function handleRemoveWorkout (workoutId) {
     const newWorkouts = [...workouts]
     let indexToDel = null
     workouts.forEach((workout, index) => {
@@ -65,15 +66,15 @@ function WorkoutList () {
     }
   }
 
-  async function handleUpdateWorkout(workoutId, editedEntries, date) {
+  async function handleUpdateWorkout (workoutId, editedEntries, date) {
     const entries = editedEntries.filter((entry) => {
       return Object.keys(entry).length > 1
     })
     const updatedWorkout = {
-      date: date ? date : undefined,
+      date: date || undefined,
       entries: entries.length > 0 ? entries : undefined
     }
-    
+
     const result = await updateWorkoutById(workoutId, updatedWorkout)
     console.log(result)
     if (result.status === 200) {
@@ -110,33 +111,39 @@ function WorkoutList () {
         setCutoffDate={setCutoffDate}
       />
       <Stack spacing={1}>
-        {workouts.length === 0 ? (
+        {workouts.length === 0
+          ? (
           <div>No workouts, yet!</div>
-        ) : (
-          workouts.map((workout) => (
+            )
+          : (
+              workouts.map((workout) => (
             <Workout
               key={`workout${workout.workout_id}`}
               workoutData={workout}
               handleRemoveWorkout={handleRemoveWorkout}
               handleUpdateWorkout={handleUpdateWorkout}
             />
-          ))
-        )}
+              ))
+            )}
         <Stack direction='row' spacing={2} justifyContent='center'>
-          {offset > 0 ? (
+          {offset > 0
+            ? (
             <Button variant='text' onClick={() => setOffset(offset - limit)}>
               Previous
             </Button>
-          ) : (
-            ''
-          )}
-          {isNext ? (
+              )
+            : (
+                ''
+              )}
+          {isNext
+            ? (
             <Button variant='text' onClick={() => setOffset(offset + limit)}>
               Next
             </Button>
-          ) : (
-            ''
-          )}
+              )
+            : (
+                ''
+              )}
         </Stack>
       </Stack>
     </>

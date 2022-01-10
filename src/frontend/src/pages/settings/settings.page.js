@@ -3,7 +3,7 @@ import UserNavigation from '../../core/app/navigation/user'
 import UserSettings from '../../core/app/settings/'
 import Typography from '@mui/material/Typography'
 
-function SettingsPage() {
+function SettingsPage () {
   return (
     <>
       <UserNavigation/>

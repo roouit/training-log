@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Set from '../set'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import { getExerciseById } from '../../../../shared/api'
 
-function Exercise({ exerciseData }) {
+function Exercise ({ exerciseData }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [exercise, setExercise] = useState([])
 
+  Exercise.propTypes = {
+    exerciseData: PropTypes.object.isRequired
+  }
+
   useEffect(() => {
-    async function call() {
+    async function call () {
       try {
         const response = await getExerciseById(exerciseData[0].exercise_id)
         setExercise(response)
@@ -25,9 +30,11 @@ function Exercise({ exerciseData }) {
 
   return (
     <>
-      {loading && !error ? (
-        'Loading workout data...'
-      ) : (
+      {loading && !error
+        ? (
+            'Loading workout data...'
+          )
+        : (
         <List dense={true}>
           <Typography variant='h6'>{exercise.exercise_name}</Typography>
           {exerciseData.map((set) => {
@@ -39,7 +46,7 @@ function Exercise({ exerciseData }) {
             )
           })}
         </List>
-      )}
+          )}
     </>
   )
 }

@@ -11,11 +11,11 @@ function UpdateExercise () {
   const [exercise, setExercise] = useState(null)
   const [name, setName] = useState('')
 
-  function handleSetExercise(newExercise) {
+  function handleSetExercise (newExercise) {
     setExercise(newExercise)
   }
 
-  async function handleUpdateExercise() {
+  async function handleUpdateExercise () {
     if (exercise) {
       const result = await updateExerciseById(exercise.id, {
         exercise_name: name

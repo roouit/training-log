@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import fi from 'date-fns/locale/fi'
 import Stack from '@mui/material/Stack'
@@ -10,7 +11,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
-function OrderOptions({
+function OrderOptions ({
   ascending,
   setAscending,
   olderThan,
@@ -18,6 +19,14 @@ function OrderOptions({
   cutoffDate,
   setCutoffDate
 }) {
+  OrderOptions.propTypes = {
+    ascending: PropTypes.bool.isRequired,
+    setAscending: PropTypes.func.isRequired,
+    olderThan: PropTypes.bool.isRequired,
+    setOlderThan: PropTypes.func.isRequired,
+    cutoffDate: PropTypes.string.isRequired,
+    setCutoffDate: PropTypes.func.isRequired
+  }
 
   function handleChangeDate (newDate) {
     const date = moment(newDate).format('YYYY-MM-DD HH:mm')

@@ -14,7 +14,7 @@ export function getExerciseById (id) {
   )
 }
 
-export async function saveExercise(exercise) {
+export async function saveExercise (exercise) {
   try {
     const result = await axios({
       url: 'api/v1/exercises/',
@@ -30,7 +30,7 @@ export async function saveExercise(exercise) {
   }
 }
 
-export async function updateExerciseById(id, exerciseData) {
+export async function updateExerciseById (id, exerciseData) {
   try {
     const result = await axios({
       url: `api/v1/exercises/${id}`,
@@ -46,7 +46,7 @@ export async function updateExerciseById(id, exerciseData) {
   }
 }
 
-export async function deleteExerciseById(id) {
+export async function deleteExerciseById (id) {
   try {
     const result = await axios({
       url: `api/v1/exercises/${id}`,

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import fi from 'date-fns/locale/fi'
 import TextField from '@mui/material/TextField'
@@ -8,8 +9,14 @@ import DateTimePicker from '@mui/lab/DateTimePicker'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-function WorkoutFormHeader({ date, setDate, handleAddExercise }) {
-  function handleDateChange(newDate) {
+function WorkoutFormHeader ({ date, setDate, handleAddExercise }) {
+  WorkoutFormHeader.propTypes = {
+    date: PropTypes.string.isRequired,
+    setDate: PropTypes.func.isRequired,
+    handleAddExercise: PropTypes.func.isRequired
+  }
+
+  function handleDateChange (newDate) {
     setDate(moment(newDate).format('YYYY-MM-DD HH:mm'))
   }
 

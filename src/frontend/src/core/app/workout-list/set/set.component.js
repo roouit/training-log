@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 
-function Set({ data }) {
+function Set ({ data }) {
   const [description, setDescription] = useState('')
 
+  Set.propTypes = {
+    data: PropTypes.object.isRequired
+  }
+
   useEffect(() => {
-    let newDescription = `${data.repetitions} reps @ ${data.load} kg`
+    const newDescription = `${data.repetitions} reps @ ${data.load} kg`
     setDescription(newDescription)
   }, [data])
 

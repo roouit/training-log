@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { getAllExercises } from '../../../../shared/api'
 
-function SelectExercise({handleSetExercise}) {
+function SelectExercise ({ handleSetExercise }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [allExercises, setAllExercises] = useState([])
   const [exercise, setExercise] = useState('')
 
+  SelectExercise.propTypes = {
+    handleSetExercise: PropTypes.func.isRequired
+  }
+
   useEffect(() => {
-    async function call() {
+    async function call () {
       try {
         const response = await getAllExercises()
         setAllExercises(response)
@@ -47,15 +52,15 @@ function SelectExercise({handleSetExercise}) {
           {loading && !error
             ? ''
             : allExercises.map((exercise) => {
-                return (
+              return (
                   <MenuItem
                     key={exercise.exercise_name}
                     value={exercise.exercise_name}
                   >
                     {exercise.exercise_name}
                   </MenuItem>
-                )
-              })}
+              )
+            })}
         </Select>
       </FormControl>
     </>

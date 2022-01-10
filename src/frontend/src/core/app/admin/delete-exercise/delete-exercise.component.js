@@ -9,11 +9,11 @@ import Typography from '@mui/material/Typography'
 function DeleteExercise () {
   const [exerciseId, setExerciseId] = useState(null)
 
-  function handleSetExercise(newExercise) {
+  function handleSetExercise (newExercise) {
     setExerciseId(newExercise.id)
   }
 
-  async function handleUpdateExercise() {
+  async function handleUpdateExercise () {
     if (exerciseId) {
       const result = await deleteExerciseById(exerciseId)
       if (result.status === 200) {

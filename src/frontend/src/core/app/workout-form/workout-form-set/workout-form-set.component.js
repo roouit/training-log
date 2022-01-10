@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Stack from '@mui/material/Stack'
@@ -7,6 +8,12 @@ import TextField from '@mui/material/TextField'
 function WorkoutFormSet ({ setNumber, handleUpdateLoadAndReps, handleRemoveSet }) {
   const [reps, setReps] = useState(0)
   const [load, setLoad] = useState(0)
+
+  WorkoutFormSet.propTypes = {
+    setNumber: PropTypes.func.isRequired,
+    handleUpdateLoadAndReps: PropTypes.func.isRequired,
+    handleRemoveSet: PropTypes.func.isRequired
+  }
 
   useEffect(() => {
     handleUpdateLoadAndReps(setNumber, reps, load)

@@ -4,7 +4,7 @@ import AddExercise from './add-exercise'
 import DeleteExercise from './delete-exercise'
 import Stack from '@mui/material/Stack'
 
-function AdminSettings() {
+function AdminSettings () {
   return (
     <>
       <Stack

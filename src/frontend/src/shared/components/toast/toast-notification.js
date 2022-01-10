@@ -1,3 +1,4 @@
+import React from 'react'
 import toast from 'react-hot-toast'
 
 function ToastNotification (success, message) {
@@ -10,8 +11,8 @@ function ToastNotification (success, message) {
         }}
       >
         <span>{message}</span>
-        <div 
-          onClick={() => toast.dismiss(t.id)} 
+        <div
+          onClick={() => toast.dismiss(t.id)}
           style={{
             marginLeft: '10px',
             cursor: 'pointer'

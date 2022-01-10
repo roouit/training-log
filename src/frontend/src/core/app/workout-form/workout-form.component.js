@@ -8,7 +8,7 @@ import WorkoutFormExercise from './workout-form-exercise'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-function WorkoutForm() {
+function WorkoutForm () {
   const [exercises, setExercises] = useState([])
   const [date, setDate] = useState(null)
   const [workout, setWorkout] = useState({})
@@ -40,7 +40,7 @@ function WorkoutForm() {
     setExercises(newExercises)
   }
 
-  function handleRemoveExercise(exerciseUuid) {
+  function handleRemoveExercise (exerciseUuid) {
     const newExercises = [...exercises]
     let indexToDel = null
     newExercises.forEach((exer, index) => {
@@ -53,7 +53,7 @@ function WorkoutForm() {
   }
 
   async function handleSaveWorkout () {
-    const workoutToSave = {...workout}
+    const workoutToSave = { ...workout }
     exercises.forEach(exer => {
       exer.sets.forEach(set => {
         delete set.entry_uuid
@@ -78,7 +78,7 @@ function WorkoutForm() {
     }
   }
 
-  function updateExercise(exerciseUuid, newSets) {
+  function updateExercise (exerciseUuid, newSets) {
     const newExercises = [...exercises]
     let indexToUpdate = null
     newExercises.forEach((exer, index) => {
@@ -106,20 +106,22 @@ function WorkoutForm() {
           setDate={setDate}
           handleAddExercise={handleAddExercise}
         />
-        {exercises.length === 0 ? (
+        {exercises.length === 0
+          ? (
           <Typography align='center'>No exercises added</Typography>
-        ) : (
-          exercises.map((exer) => {
-            return (
+            )
+          : (
+              exercises.map((exer) => {
+                return (
               <WorkoutFormExercise
                 key={exer.exercise_uuid}
                 exerciseUuid={exer.exercise_uuid}
                 handleRemoveExercise={handleRemoveExercise}
                 updateExercise={updateExercise}
               />
-            )
-          })
-        )}
+                )
+              })
+            )}
 
         <WorkoutFormFooter handleSaveWorkout={handleSaveWorkout} />
       </Box>

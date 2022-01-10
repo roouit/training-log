@@ -11,7 +11,7 @@ function UserSettings () {
   const [user, setUser] = useState({})
 
   useEffect(() => {
-    async function call() {
+    async function call () {
       try {
         const response = await getUserById(2)
         setUser(response)
@@ -25,13 +25,13 @@ function UserSettings () {
   }, [])
 
   function handleChange (e) {
-    const newUser = {...user}
+    const newUser = { ...user }
     newUser[e.target.id] = e.target.value
     setUser(newUser)
   }
 
   async function handleSave () {
-    const newUser = {...user}
+    const newUser = { ...user }
     delete newUser.id
     const result = await updateUserById(user.id, newUser)
     if (result.status === 200) {
@@ -54,12 +54,14 @@ function UserSettings () {
   if (error) {
     return <div>An error occured while retrieving workouts</div>
   }
-  
+
   return (
     <>
-      {!user ? (
-        'No user data found'
-      ) : (
+      {!user
+        ? (
+            'No user data found'
+          )
+        : (
         <Stack
           spacing={1}
           direction='column'
@@ -109,7 +111,7 @@ function UserSettings () {
             Save data
           </Button>
         </Stack>
-      )}
+          )}
     </>
   )
 }

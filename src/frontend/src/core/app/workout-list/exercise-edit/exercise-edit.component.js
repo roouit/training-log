@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import SetEdit from '../set-edit'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import { getExerciseById } from '../../../../shared/api'
 
-function ExerciseEdit({ exerciseData, handleAddEntry }) {
+function ExerciseEdit ({ exerciseData, handleAddEntry }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [exercise, setExercise] = useState([])
 
+  ExerciseEdit.propTypes = {
+    exerciseData: PropTypes.object.isRequired,
+    handleAddEntry: PropTypes.object.isRequired
+  }
+
   useEffect(() => {
-    async function call() {
+    async function call () {
       try {
         const response = await getExerciseById(exerciseData[0].exercise_id)
         setExercise(response)
@@ -25,9 +31,11 @@ function ExerciseEdit({ exerciseData, handleAddEntry }) {
 
   return (
     <>
-      {loading && !error ? (
-        'Loading workout data...'
-      ) : (
+      {loading && !error
+        ? (
+            'Loading workout data...'
+          )
+        : (
         <List dense={true}>
           <Typography variant='h6'>{exercise.exercise_name}</Typography>
           {exerciseData.map((set) => {
@@ -40,7 +48,7 @@ function ExerciseEdit({ exerciseData, handleAddEntry }) {
             )
           })}
         </List>
-      )}
+          )}
     </>
   )
 }

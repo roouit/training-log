@@ -4,7 +4,7 @@ import WorkoutForm from '../../core/app/workout-form/workout-form.component'
 import WorkoutList from '../../core/app/workout-list/'
 import Typography from '@mui/material/Typography'
 
-function UserPage() {
+function UserPage () {
   return (
     <>
       <UserNavigation/>

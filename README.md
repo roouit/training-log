@@ -1,16 +1,13 @@
-# Training log
+# Simple Training Log
 
 [![Current Version][current-version]][current-version]
 
 > Tracks your progress in the gym without pen and paper
-
-Clean and minimal user interface
+***
+**The application is published in Heroku and you can find it** [**here**](https://simple-training-log.herokuapp.com/)
+***
 
 ![](docs/user.png)
-
-Effortless to add new workouts
-
-![](docs/new.png)
 
 ## About
 
@@ -19,6 +16,16 @@ A **training log** application for managing data related to **strength training*
 The app will support **basic CRUD operations** for individual training sessions, as well as **filtered and sorted views** of data.
 
 This application was developed as a part of studies in TAMK to demonstrate skills in building a fullstack application.
+
+## Media
+
+#### Effortless to add new workouts
+
+![](docs/new.png)
+
+#### Sort and filter the workouts
+
+![](docs/sort.png)
 
 ## Release History
 
@@ -43,7 +50,7 @@ This application was developed as a part of studies in TAMK to demonstrate skill
   - [x] Host app in Heroku
   - [ ] (Optional) Add license, if made public
 
-## Installation
+## Installation for developers
 
 Clone the repo
 
@@ -51,11 +58,33 @@ Clone the repo
 $ git clone https://github.com/roouit/training-log
 ```
 
-Install dependencies
+Install dependencies for server code
 
 ```
+$ cd training-log
 $ npm install
 ```
+
+Install dependencies for client code and build the code
+
+```
+$ cd src/frontend
+$ npm install
+$ npm run build
+```
+
+Setup your MariaDB (or MySQL) database and add your configuration to `.env` file on project root:
+
+```
+host = your host name
+user = your username
+password = your password
+database = your database name
+```
+
+Create the necessary tables and some mock data with SQL queries in [here](docs\db-creation-queries.sql)
+
+Run the server `node src/index.js` and navigate to http://localhost:8080/
 
 ## Technology
 

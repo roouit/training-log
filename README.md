@@ -23,14 +23,23 @@ This application was developed as a part of studies in TAMK to demonstrate skill
 
 ![](docs/new.png)
 
+#### Edit existing workout data
+
+![](docs/edit.png)
+
 #### Sort and filter the workouts
 
 ![](docs/sort.png)
 
 ## Release History
 
-* **0.0.1**
-    * Work in progress
+* **1.0.0**
+  * Initial release of the application
+  * Features:
+    * View, create and remove workouts
+    * Modify workouts and personal user data
+    * Sort and filter workouts by date
+    * View, create and remove exercises
 
 ## Todo
 
@@ -106,4 +115,4 @@ Documentation is split by resource:
 * [Workout](src/api/v1/docs/workout-api.md)
 
 <!-- Markdown link & img dfn's -->
-[current-version]: https://img.shields.io/badge/version-0.0.1-yellow
+[current-version]: https://img.shields.io/badge/version-1.0.0-green

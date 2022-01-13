@@ -1,6 +1,6 @@
 # Workout REST API documentation
 
-Workout is a resource that represents data related to a workout, which belongs to a single [User](src/api/v1/docs/user-api.md) in the application.
+Workout is a resource that represents data related to a workout, which belongs to a single [User](./user-api.md) in the application.
 
 ## <code>GET</code> Workouts list
 

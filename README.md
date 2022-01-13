@@ -91,7 +91,7 @@ password = your password
 database = your database name
 ```
 
-Create the necessary tables and some mock data with SQL queries in [here](docs\db-creation-queries.sql)
+Create the necessary tables and some mock data with SQL queries in [here](docs/db-creation-queries.sql)
 
 Run the server `node src/index.js` and navigate to http://localhost:8080/
 

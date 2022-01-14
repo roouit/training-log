@@ -32,8 +32,8 @@ exports.validateWorkoutData = (req, res, next) => {
             if (!Number.isInteger(parseInt(value))) {
               err.message = `${key} is not valid`
               next(err)
-            } else if (parseInt(value) <= 0) {
-              err.message = `${key} must be greater than 0`
+            } else if (parseInt(value) < 0) {
+              err.message = `${key} must be equal or greater than 0`
               next(err)
             }
           })

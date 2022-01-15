@@ -6,7 +6,7 @@
 ***
 **The application is published in Heroku and you can find it** [**here**](https://simple-training-log.herokuapp.com/)
 
-[**SCREENCAST**](https://youtu.be/j-6fAz3jgmU)
+[**SCREENCAST**](https://vimeo.com/666228662)
 ***
 
 ![](docs/user.png)

@@ -5,6 +5,8 @@
 > Tracks your progress in the gym without pen and paper
 ***
 **The application is published in Heroku and you can find it** [**here**](https://simple-training-log.herokuapp.com/)
+
+[**SCREENCAST**](https://youtu.be/j-6fAz3jgmU)
 ***
 
 ![](docs/user.png)

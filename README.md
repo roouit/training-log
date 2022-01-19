@@ -95,7 +95,17 @@ database = your database name
 
 Create the necessary tables and some mock data with SQL queries in [here](docs/db-creation-queries.sql)
 
-Run the server `node src/index.js` and navigate to http://localhost:8080/
+On project root, run the server `node src/index.js` and navigate to http://localhost:8080/ with your browser
+
+### Known issues
+
+**The app doesn't find my workouts even though they are in the database.**
+
+This might be caused by the hard coded user IDs in API calls in `\training-log\src\frontend\src\shared\api\workout.js`. Change the user ID to correspond one on your database `user` table. Change the user ID for all API calls to fix other operations too.
+
+**The app doesn't find my user data even though the user is in the database.**
+
+This might be caused by the hard coded user ID in React component (**line 16**) `\training-log\src\frontend\src\core\app\settings\user-settings.component.js`. Change the user ID to correspond one on your database `user` table.
 
 ## Technology
 
